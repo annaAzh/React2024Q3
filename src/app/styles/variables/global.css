@@ -1,0 +1,10 @@
+:root {
+  --border-color: #ececec;
+  --accent-color: #e4ad9b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

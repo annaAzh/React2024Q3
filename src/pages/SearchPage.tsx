@@ -3,6 +3,7 @@ import style from './SearchPage.module.css';
 import { LocaleStorage } from '../shared/utils/localeStorage/LocaleStorage';
 import { SearchRequest } from '../shared/lib/api/SearchRequest';
 import { HeroResponse } from '../shared/lib/api/types';
+import { Loader } from '../shared/components/Loader/Loader';
 
 interface SearchPageProps {}
 interface SearchPageState {
@@ -10,6 +11,7 @@ interface SearchPageState {
   search: string;
   heroes: Array<HeroResponse> | [];
   error: Error | null;
+  loading: boolean;
 }
 
 class SearchPage extends Component<SearchPageProps, SearchPageState> {
@@ -23,22 +25,37 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
       search: '',
       heroes: [],
       error: null,
+      loading: true,
     };
   }
 
   getData = async () => {
+    this.setState({ loading: true, error: null });
     const { search } = this.state;
-    const data = await SearchRequest.getData(search);
-    if (data) {
-      this.setState({
-        heroes: data?.results,
-      });
+
+    try {
+      const data = await SearchRequest.getData(search);
+      if (data?.results) {
+        this.setState({
+          heroes: data?.results || [],
+          loading: false,
+        });
+      }
+      if (data?.error) {
+        throw new Error(data.error);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        this.setState({
+          heroes: [],
+          loading: false,
+        });
+      }
     }
   };
 
   componentDidMount(): void {
     this.setInitialState();
-    this.getData();
   }
 
   componentDidUpdate(_prevProps: Readonly<SearchPageProps>, prevState: Readonly<SearchPageState>): void {
@@ -53,9 +70,10 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
   setInitialState = () => {
     const value = this.storage.getLocaleStorage();
     if (value) {
-      this.setState({ searchValue: value, search: value });
+      this.setState({ searchValue: value, search: value, loading: true });
     } else {
-      this.setState({ searchValue: '', search: '' });
+      this.setState({ searchValue: '', search: '', loading: true });
+      this.getData();
     }
   };
 
@@ -75,7 +93,7 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
   };
 
   render() {
-    const { heroes } = this.state;
+    const { heroes, loading } = this.state;
 
     return (
       <div className={style.page}>
@@ -95,17 +113,27 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
             Error
           </button>
         </div>
-        <div className={style.search_list}>
-          {heroes.map((hero) => (
-            <div key={hero.id} className={style.card}>
-              <div>
-                <img src={hero.image} className={style.hero_img} alt={hero.name} />
+
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            {heroes.length > 0 && (
+              <div className={style.search_list}>
+                {heroes.map((hero) => (
+                  <div key={hero.id} className={style.card}>
+                    <div>
+                      <img src={hero.image} className={style.hero_img} alt={hero.name} />
+                    </div>
+                    <h3 className={style.hero_desc}>{hero.name}</h3>
+                    <p className={style.hero_desc}>Location: {hero.location.name}</p>
+                  </div>
+                ))}
               </div>
-              <h3 className={style.hero_desc}>{hero.name}</h3>
-              <p className={style.hero_desc}>Location: {hero.location.name}</p>
-            </div>
-          ))}
-        </div>
+            )}
+            {heroes.length === 0 && <h2 className={style.title}>No results found</h2>}
+          </>
+        )}
       </div>
     );
   }

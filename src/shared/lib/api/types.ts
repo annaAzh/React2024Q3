@@ -26,8 +26,9 @@ type InfoResponse = {
 };
 
 type SearchResponse = {
-  info: InfoResponse;
-  results: Array<HeroResponse>;
+  info?: InfoResponse;
+  results?: Array<HeroResponse>;
+  error?: string;
 };
 
 export { type HeroResponse, type FetchParams, type SearchResponse };

@@ -9,21 +9,9 @@ class SearchRequest {
   static getData = async (searchValue?: string, page: number = 1): Promise<SearchResponse | undefined> => {
     const searchPath = searchValue ? `&name=${searchValue}` : '';
     const url = `${this.baseUrl}?page=${page}${searchPath}`;
-
-    try {
-      const res = await fetch(url, this.params);
-      if (!res.ok) {
-        throw new Error(`Request failed with status code ${res.status} ${res.statusText}`);
-      } else {
-        const data = (await res.json()) as SearchResponse;
-        return data;
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        throw error;
-      }
-      throw new Error('Unexpected error occured');
-    }
+    const res = await fetch(url, this.params);
+    const data = (await res.json()) as SearchResponse;
+    return data;
   };
 }
 

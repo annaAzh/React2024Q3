@@ -1,9 +1,9 @@
-import { Component } from 'react';
+import { Component, createRef } from 'react';
 import style from './SearchPage.module.css';
-import { LocaleStorage } from '../shared/utils/localeStorage/LocaleStorage';
-import { SearchRequest } from '../shared/lib/api/SearchRequest';
-import { HeroResponse } from '../shared/lib/api/types';
-import { Loader } from '../shared/components/Loader/Loader';
+import { LocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
+import { SearchRequest } from 'shared/lib/api/SearchRequest';
+import { HeroResponse } from 'shared/lib/api/types';
+import { Loader } from 'shared/components/Loader/Loader';
 
 interface SearchPageProps {}
 interface SearchPageState {

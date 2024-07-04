@@ -29,6 +29,8 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
     };
   }
 
+  inputRef = createRef<HTMLInputElement>();
+
   getData = async () => {
     this.setState({ loading: true, error: null });
     const { search } = this.state;
@@ -95,9 +97,9 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
   handleResetForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     this.setState({
-      search: '',
       searchValue: '',
     });
+    this.inputRef.current?.focus();
   };
 
   render() {
@@ -109,6 +111,7 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
           <form className={style.search_block} onSubmit={this.handleSubmitSearch} onReset={this.handleResetForm}>
             <label className={style.label}>
               <input
+                ref={this.inputRef}
                 type="text"
                 value={this.state.searchValue}
                 className={style.search_input}

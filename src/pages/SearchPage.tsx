@@ -92,19 +92,36 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
     this.setState({ error: new Error('Custom error triggered') });
   };
 
+  handleResetForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    this.setState({
+      search: '',
+      searchValue: '',
+    });
+  };
+
   render() {
-    const { heroes, loading } = this.state;
+    const { heroes, loading, searchValue } = this.state;
 
     return (
       <div className={style.page}>
         <div className={style.controls_block}>
-          <form className={style.search_block} onSubmit={this.handleSubmitSearch}>
-            <input
-              type="text"
-              value={this.state.searchValue}
-              className={style.search_input}
-              onChange={this.handleChangeSearchValue}
-            ></input>
+          <form className={style.search_block} onSubmit={this.handleSubmitSearch} onReset={this.handleResetForm}>
+            <label className={style.label}>
+              <input
+                type="text"
+                value={this.state.searchValue}
+                className={style.search_input}
+                onChange={this.handleChangeSearchValue}
+              ></input>
+              <button
+                type="reset"
+                className={searchValue ? `${style.clear_btn} ${style.clear_btn_visible}` : `${style.clear_btn}`}
+              >
+                &times;
+              </button>
+            </label>
+
             <button className={`${style.search_button} ${style.button}`} type="submit">
               Search
             </button>

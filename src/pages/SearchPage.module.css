@@ -23,6 +23,11 @@
   gap: 20px;
 }
 
+.label {
+  position: relative;
+  display: inline-block;
+}
+
 .search_input {
   min-width: 300px;
   padding: 4px 20px;
@@ -32,6 +37,25 @@
   outline-color: var(--accent-color);
   background-color: var(--bg-color);
   color: var(--border-color);
+}
+
+.clear_btn {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 30px;
+  line-height: 30px;
+  z-index: 1000;
+  color: var(--accent-color);
+  cursor: pointer;
+  display: none;
+}
+
+.clear_btn.clear_btn_visible {
+  display: block;
 }
 
 .button {

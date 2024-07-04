@@ -9,6 +9,7 @@ interface SearchPageState {
   searchValue: string;
   search: string;
   heroes: Array<HeroResponse> | [];
+  error: Error | null;
 }
 
 class SearchPage extends Component<SearchPageProps, SearchPageState> {
@@ -21,6 +22,7 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
       searchValue: '',
       search: '',
       heroes: [],
+      error: null,
     };
   }
 
@@ -42,6 +44,9 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
   componentDidUpdate(_prevProps: Readonly<SearchPageProps>, prevState: Readonly<SearchPageState>): void {
     if (prevState.search !== this.state.search) {
       this.getData();
+    }
+    if (prevState.error !== this.state.error) {
+      throw this.state.error;
     }
   }
 
@@ -65,21 +70,31 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
     this.setState({ search: this.state.searchValue });
   };
 
+  handleCustomError = () => {
+    this.setState({ error: new Error('Custom error triggered') });
+  };
+
   render() {
     const { heroes } = this.state;
+
     return (
-      <>
-        <form className={style.search_block} onSubmit={this.handleSubmitSearch}>
-          <input
-            type="text"
-            value={this.state.searchValue}
-            className={style.search_input}
-            onChange={this.handleChangeSearchValue}
-          ></input>
-          <button className={style.search_button} type="submit">
-            Search
+      <div className={style.page}>
+        <div className={style.controls_block}>
+          <form className={style.search_block} onSubmit={this.handleSubmitSearch}>
+            <input
+              type="text"
+              value={this.state.searchValue}
+              className={style.search_input}
+              onChange={this.handleChangeSearchValue}
+            ></input>
+            <button className={`${style.search_button} ${style.button}`} type="submit">
+              Search
+            </button>
+          </form>
+          <button className={`${style.error_btn} ${style.button}`} onClick={this.handleCustomError}>
+            Error
           </button>
-        </form>
+        </div>
         <div className={style.search_list}>
           {heroes.map((hero) => (
             <div key={hero.id} className={style.card}>
@@ -91,7 +106,7 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
             </div>
           ))}
         </div>
-      </>
+      </div>
     );
   }
 }

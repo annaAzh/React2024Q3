@@ -1,0 +1,35 @@
+.error_block {
+  background-image: url(../../../assets/bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.title {
+  margin-top: 60px;
+  color: var(--border-color);
+  margin-bottom: 20px;
+}
+
+.reload_btn {
+  height: 40px;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  transition: all 0.3s ease-in;
+}
+
+@media (hover: hover) {
+  .reload_btn:hover {
+    background: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    color: var(--bg-color);
+  }
+}

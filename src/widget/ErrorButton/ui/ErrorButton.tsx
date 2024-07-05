@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import style from './ErrorButton.module.css';
+import style from './ErrorButton.module.scss';
 
 interface ErrorButtonProps {}
 interface ErrorButtonState {
@@ -26,7 +26,7 @@ class ErrorButton extends Component<ErrorButtonProps, ErrorButtonState> {
 
   render() {
     return (
-      <button className={`${style.error_btn} ${style.button}`} onClick={this.handleCustomError}>
+      <button className={style.error_btn} onClick={this.handleCustomError}>
         Error
       </button>
     );

@@ -1,5 +1,5 @@
 import { Component, createRef } from 'react';
-import style from './Search.module.css';
+import style from './Search.module.scss';
 import { LocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
 
 interface SearchProps {
@@ -77,7 +77,7 @@ class Search extends Component<SearchProps, SearchState> {
           </button>
         </label>
 
-        <button className={`${style.search_button} ${style.button}`} type="submit">
+        <button className={style.search_button} type="submit">
           Search
         </button>
       </form>

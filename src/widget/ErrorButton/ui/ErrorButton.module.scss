@@ -1,15 +1,7 @@
-.button {
-  height: 40px;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.3s ease-in;
-}
+@import '../../../app/styles/variables/global.scss';
 
 .error_btn {
+  @extend %button;
   margin-left: auto;
   border: 1px solid var(--danger-color);
   background-color: var(--danger-color);

@@ -48,11 +48,12 @@ class Search extends Component<SearchProps, SearchState> {
 
   handleResetForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    this.setState({
-      searchValue: '',
+
+    this.setState({ searchValue: '' }, () => {
+      this.inputRef.current?.focus();
+      this.props.onResetSearch();
+      this.storage.setLocaleStorage(this.state.searchValue);
     });
-    this.inputRef.current?.focus();
-    this.props.onResetSearch();
   };
 
   render() {

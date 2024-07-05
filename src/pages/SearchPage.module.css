@@ -15,3 +15,8 @@
   gap: 20px;
   padding: 2rem;
 }
+
+.title {
+  margin-top: 60px;
+  color: var(--border-color);
+}

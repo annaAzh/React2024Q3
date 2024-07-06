@@ -1,0 +1,22 @@
+.page {
+  background-image: url(../assets/bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.controls_block {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 2rem;
+}
+
+.title {
+  margin-top: 60px;
+  color: var(--border-color);
+}

@@ -1,0 +1,30 @@
+.search_list {
+  padding: 20px;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 300px));
+  gap: 20px;
+}
+
+.card {
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+  color: var(--border-color);
+}
+
+.hero_img {
+  max-width: 300px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.hero_desc {
+  margin-bottom: 10px;
+}
+
+.title {
+  margin-top: 60px;
+  color: var(--border-color);
+}

@@ -1,0 +1,16 @@
+@import '../../../app/styles/variables/global.scss';
+
+.error_btn {
+  @extend %button;
+  margin-left: auto;
+  border: 1px solid var(--danger-color);
+  background-color: var(--danger-color);
+}
+
+@media (hover: hover) {
+  .error_btn:hover {
+    background-color: transparent;
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+  }
+}

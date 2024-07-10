@@ -1,89 +1,73 @@
-import { Component, createRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import style from './Search.module.scss';
-import { LocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
+import { getLocaleStorage, setLocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
 
 interface SearchProps {
   onSubmitSearch: (value: string) => void;
   onResetSearch: () => void;
 }
-interface SearchState {
-  searchValue: string;
-}
 
-class Search extends Component<SearchProps, SearchState> {
-  storage: LocaleStorage;
-  constructor(props: SearchProps) {
-    super(props);
-    this.storage = new LocaleStorage();
-    this.state = {
-      searchValue: '',
-    };
-  }
+const Search: FC<SearchProps> = (props) => {
+  const [searchValue, setSearchValue] = useState<string>('');
 
-  inputRef = createRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  componentDidMount(): void {
-    this.setInitialState();
-  }
+  useEffect(() => {
+    setInitialState();
+  }, []);
 
-  setInitialState = () => {
-    const value = this.storage.getLocaleStorage();
+  const setInitialState = () => {
+    const value = getLocaleStorage();
     if (value) {
-      this.setState({ searchValue: value });
+      setSearchValue(value);
     } else {
-      this.setState({ searchValue: '' });
+      setSearchValue('');
     }
   };
 
-  handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
-    this.setState({ searchValue: value });
+    setSearchValue(value);
   };
 
-  handleSubmitSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    this.storage.setLocaleStorage(this.state.searchValue);
-    this.props.onSubmitSearch(this.state.searchValue);
+    setLocaleStorage(searchValue);
+    props.onSubmitSearch(searchValue);
   };
 
-  handleResetForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleResetForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    this.setState({ searchValue: '' }, () => {
-      this.inputRef.current?.focus();
-      this.props.onResetSearch();
-      this.storage.setLocaleStorage(this.state.searchValue);
-    });
+    setSearchValue('');
+    inputRef.current?.focus();
+    props.onResetSearch();
+    setLocaleStorage('');
   };
 
-  render() {
-    const { searchValue } = this.state;
-
-    return (
-      <form className={style.search_block} onSubmit={this.handleSubmitSearch} onReset={this.handleResetForm}>
-        <label className={style.label}>
-          <input
-            ref={this.inputRef}
-            type="text"
-            placeholder="search..."
-            value={searchValue}
-            className={style.search_input}
-            onChange={this.handleChangeSearchValue}
-          ></input>
-          <button
-            type="reset"
-            className={searchValue ? `${style.clear_btn} ${style.clear_btn_visible}` : `${style.clear_btn}`}
-          >
-            &times;
-          </button>
-        </label>
-
-        <button className={style.search_button} type="submit">
-          Search
+  return (
+    <form className={style.search_block} onSubmit={handleSubmitSearch} onReset={handleResetForm}>
+      <label className={style.label}>
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="search..."
+          value={searchValue}
+          className={style.search_input}
+          onChange={handleChangeSearchValue}
+        ></input>
+        <button
+          type="reset"
+          className={searchValue ? `${style.clear_btn} ${style.clear_btn_visible}` : `${style.clear_btn}`}
+        >
+          &times;
         </button>
-      </form>
-    );
-  }
-}
+      </label>
+
+      <button className={style.search_button} type="submit">
+        Search
+      </button>
+    </form>
+  );
+};
 
 export { Search };

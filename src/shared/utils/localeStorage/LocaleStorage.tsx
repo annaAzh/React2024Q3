@@ -1,19 +1,15 @@
 const localeSorageKey = 'annaAzhReact';
 
-class LocaleStorage {
-  constructor(public key: string = localeSorageKey) {}
-
-  getLocaleStorage(): string {
-    const lsValue = localStorage.getItem(this.key);
-    if (lsValue) {
-      return JSON.parse(lsValue);
-    }
-    return '';
+const getLocaleStorage = (key: string = localeSorageKey): string => {
+  const lsValue = localStorage.getItem(key);
+  if (lsValue) {
+    return JSON.parse(lsValue);
   }
+  return '';
+};
 
-  setLocaleStorage(value: string): void {
-    localStorage.setItem(this.key, JSON.stringify(value));
-  }
-}
+const setLocaleStorage = (value: string, key: string = localeSorageKey): void => {
+  localStorage.setItem(key, JSON.stringify(value));
+};
 
-export { LocaleStorage };
+export { getLocaleStorage, setLocaleStorage };

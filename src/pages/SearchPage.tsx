@@ -7,6 +7,7 @@ import { Search } from 'widget/Search';
 import { ErrorButton } from 'widget/ErrorButton/ui/ErrorButton';
 import { LocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
 import { List } from 'widget/List';
+import { Pagination } from 'widget/Pagination';
 
 interface SearchPageProps {}
 interface SearchPageState {
@@ -14,6 +15,7 @@ interface SearchPageState {
   heroes: Array<HeroResponse>;
   error: Error | null;
   loading: boolean;
+  totalPages: number | null;
 }
 
 class SearchPage extends Component<SearchPageProps, SearchPageState> {
@@ -26,6 +28,7 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
       heroes: [],
       error: null,
       loading: true,
+      totalPages: null,
     };
   }
 
@@ -35,6 +38,14 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
 
     try {
       const data = await SearchRequest.getData(search);
+
+      const totalPages = data?.info?.pages;
+      if (totalPages) {
+        this.setState({
+          totalPages,
+        });
+      }
+
       if (data?.results) {
         this.setState({
           heroes: data?.results || [],
@@ -96,7 +107,12 @@ class SearchPage extends Component<SearchPageProps, SearchPageState> {
           <Loader />
         ) : (
           <>
-            {heroes.length > 0 && <List heroes={this.state.heroes} />}
+            {heroes.length > 0 && (
+              <>
+                <List heroes={this.state.heroes} />
+                {this.state.totalPages && <Pagination count={this.state.totalPages} />}
+              </>
+            )}
             {heroes.length === 0 && <h2 className={style.title}>No results found</h2>}
           </>
         )}

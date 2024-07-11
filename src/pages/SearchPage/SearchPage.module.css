@@ -1,11 +1,12 @@
-.page {
-  background-image: url(../assets/bg.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 100vh;
+.wrapper {
+  display: flex;
+  flex-direction: row;
   padding: 2rem;
-}
 
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+  }
+}
 .controls_block {
   display: flex;
   flex-wrap: wrap;

@@ -7,6 +7,7 @@ import { Search } from 'widget/Search';
 import { getLocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
 import { List } from 'widget/List';
 import { Pagination } from 'widget/Pagination';
+import { Outlet } from 'react-router-dom';
 
 interface SearchPageState {
   search: string;
@@ -66,7 +67,7 @@ const SearchPage: FC = () => {
   const { heroes, loading } = state;
 
   return (
-    <div className={style.page}>
+    <div>
       <div className={style.controls_block}>
         <Search onSubmitSearch={onSubmitSearch} onResetSearch={onResetSearch} />
       </div>
@@ -75,13 +76,16 @@ const SearchPage: FC = () => {
         <Loader />
       ) : (
         <>
-          {heroes.length > 0 && (
-            <>
-              <List heroes={heroes} />
-              {state.totalPages && <Pagination count={state.totalPages} />}
-            </>
-          )}
-          {heroes.length === 0 && <h2 className={style.title}>No results found</h2>}
+          <div className={style.wrapper}>
+            {heroes.length > 0 && (
+              <>
+                <List heroes={heroes} />
+              </>
+            )}
+            {heroes.length === 0 && <h2 className={style.title}>No results found</h2>}
+            <Outlet />
+          </div>
+          <>{state.totalPages && <Pagination count={state.totalPages} />}</>
         </>
       )}
     </div>

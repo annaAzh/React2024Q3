@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { SearchPage } from '../pages/SearchPage';
 import './styles/variables/global.scss';
 import './App.css';
+import { RouteProvider } from './providers/routerProvider/routeProvider';
 
 const App: FC = () => {
-  return <SearchPage />;
+  return <RouteProvider />;
 };
 
 export { App };

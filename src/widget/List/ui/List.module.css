@@ -1,5 +1,5 @@
 .search_list {
-  padding: 20px;
+  flex: 1;
   display: grid;
   justify-content: center;
   grid-template-columns: repeat(auto-fill, minmax(200px, 300px));

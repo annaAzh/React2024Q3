@@ -7,7 +7,7 @@ import { Search } from 'widget/Search';
 import { getLocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
 import { List } from 'widget/List';
 import { Pagination } from 'widget/Pagination';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
 interface SearchPageState {
   search: string;
@@ -18,8 +18,10 @@ interface SearchPageState {
 }
 
 const SearchPage: FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const initialState: SearchPageState = {
-    search: getLocaleStorage() ?? '',
+    search: searchParams.get('query') ?? getLocaleStorage() ?? '',
     heroes: [],
     error: null,
     loading: true,
@@ -27,12 +29,13 @@ const SearchPage: FC = () => {
   };
 
   const [state, setState] = useState<SearchPageState>(initialState);
+  const [currentPage, setCurrentPage] = useState<number>(Number(searchParams.get('page') ?? 1));
 
-  const getData = async (search?: string) => {
+  const getData = async (search?: string, page?: number) => {
     setState((prevState) => ({ ...prevState, loading: true, error: null }));
 
     try {
-      const data = await SearchRequest(search);
+      const data = await SearchRequest(search, page);
 
       const totalPages = data?.info?.pages;
       if (totalPages) {
@@ -53,18 +56,27 @@ const SearchPage: FC = () => {
   };
 
   useEffect(() => {
-    getData(state.search);
-  }, [state.search]);
+    getData(state.search, currentPage);
+  }, [state.search, currentPage]);
 
   const onSubmitSearch = (value: string) => {
     setState((prevState) => ({ ...prevState, search: value }));
+    setCurrentPage(1);
+    setSearchParams({ query: value, page: '1' });
   };
 
   const onResetSearch = () => {
     setState((prevState) => ({ ...prevState, search: '' }));
+    setCurrentPage(1);
+    setSearchParams({});
   };
 
   const { heroes, loading } = state;
+
+  const onChangePage = (page: number) => {
+    setCurrentPage(page);
+    setSearchParams({ query: state.search, page: page.toString() });
+  };
 
   return (
     <div>
@@ -85,7 +97,16 @@ const SearchPage: FC = () => {
             {heroes.length === 0 && <h2 className={style.title}>No results found</h2>}
             <Outlet />
           </div>
-          <>{state.totalPages && <Pagination count={state.totalPages} />}</>
+          <>
+            {state.totalPages && (
+              <Pagination
+                totalPage={state.totalPages}
+                currentPage={currentPage}
+                siblings={1}
+                onChangePage={onChangePage}
+              />
+            )}
+          </>
         </>
       )}
     </div>

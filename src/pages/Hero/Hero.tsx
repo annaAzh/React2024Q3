@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate, useNavigation } from 'react-router-dom';
+import { useLoaderData, useLocation, useNavigate, useNavigation } from 'react-router-dom';
 import { HeroResponse } from 'shared/lib/api/types';
 import { Paths } from 'shared/types';
 import style from './Hero.module.scss';
@@ -6,12 +6,17 @@ import style from './Hero.module.scss';
 const Hero = () => {
   const navigate = useNavigate();
   const navigation = useNavigation();
+  const locationPath = useLocation();
   const hero = useLoaderData() as HeroResponse | undefined;
+
+  const handleCloseClick = () => {
+    navigate(Paths.base + locationPath.search);
+  };
 
   if (!hero) {
     return (
       <div className={style.wrapper}>
-        <button className={style.close_btn} onClick={() => navigate(Paths.base)}>
+        <button className={style.close_btn} onClick={handleCloseClick}>
           &times;
         </button>
         <h2>Hero not found</h2>
@@ -29,10 +34,6 @@ const Hero = () => {
       </div>
     );
   }
-
-  const handleCloseClick = () => {
-    navigate(Paths.base);
-  };
 
   return (
     <>

@@ -1,39 +1,51 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import style from './Pagination.module.scss';
-import arrow from '../../../assets/icons/arrow-left.svg';
+import arrow from 'assets/icons/arrow-left.svg';
+import { getPaginationArray } from 'shared/utils/helpers';
 
 type PaginationProps = {
-  count: number;
+  totalPage: number;
+  currentPage: number;
+  siblings: number;
+  onChangePage: (page: number) => void;
 };
 
 const Pagination: FC<PaginationProps> = (props) => {
-  const [current, setCurrent] = useState<number>(1);
+  const { currentPage, totalPage, siblings, onChangePage } = props;
 
-  const handleArrowPrewClick = () => {
-    setCurrent((prev) => (prev > 1 ? prev - 1 : prev));
-  };
-
-  const handleArrowNextClick = () => {
-    setCurrent((prev) => (prev < props.count ? prev + 1 : prev));
-  };
+  const arr = getPaginationArray(totalPage, currentPage, siblings);
 
   return (
     <div className={style.block}>
-      <button className={style.arrow_left} disabled={current === 1} onClick={handleArrowPrewClick}>
+      <button
+        className={style.arrow_left}
+        disabled={currentPage === 1}
+        onClick={() => onChangePage(currentPage > 1 ? currentPage - 1 : currentPage)}
+      >
         <img className={style.arrow_img} src={arrow} />
       </button>
-      {Array.from({ length: props.count }).map((_, i) =>
-        i < 5 || i === props.count - 1 ? (
-          <button
-            key={i + 1}
-            className={current === i + 1 ? `${style.item} ${style.active}` : `${style.item}`}
-            onClick={() => setCurrent(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ) : null,
-      )}
-      <button className={style.arrow_right} disabled={current === props.count} onClick={handleArrowNextClick}>
+
+      {arr.map((el, i) => (
+        <button
+          key={i}
+          className={
+            el === '...' ? style.dots_item : currentPage === el ? `${style.item} ${style.active}` : `${style.item}`
+          }
+          onClick={() => {
+            if (typeof el === 'number') {
+              props.onChangePage(el);
+            }
+          }}
+        >
+          {el}
+        </button>
+      ))}
+
+      <button
+        className={style.arrow_right}
+        disabled={currentPage === totalPage}
+        onClick={() => onChangePage(currentPage < totalPage ? currentPage + 1 : currentPage)}
+      >
         <img className={style.arrow_next_img} src={arrow} />
       </button>
     </div>

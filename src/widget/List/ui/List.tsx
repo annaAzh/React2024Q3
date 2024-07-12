@@ -1,7 +1,7 @@
 import { FC, SyntheticEvent } from 'react';
 import style from './List.module.scss';
 import { HeroResponse } from 'shared/lib/api/types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Paths } from 'shared/types';
 
 interface ListProps {
@@ -10,10 +10,11 @@ interface ListProps {
 
 const List: FC<ListProps> = ({ heroes }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleCardClick = (e: SyntheticEvent, id: number) => {
     e.stopPropagation();
-    navigate(`${Paths.hero}${id}`);
+    navigate(`${Paths.hero}${id}${location.search}`);
   };
 
   return (

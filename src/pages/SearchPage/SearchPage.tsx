@@ -31,6 +31,10 @@ const SearchPage: FC = () => {
   const [state, setState] = useState<SearchPageState>(initialState);
   const [currentPage, setCurrentPage] = useState<number>(Number(searchParams.get('page') ?? 1));
 
+  useEffect(() => {
+    setSearchParams({ query: state.search, page: currentPage.toString() });
+  }, []);
+
   const getData = async (search?: string, page?: number) => {
     setState((prevState) => ({ ...prevState, loading: true, error: null }));
 
@@ -98,7 +102,7 @@ const SearchPage: FC = () => {
             <Outlet />
           </div>
           <>
-            {state.totalPages && (
+            {state.totalPages && heroes.length > 0 && (
               <Pagination
                 totalPage={state.totalPages}
                 currentPage={currentPage}

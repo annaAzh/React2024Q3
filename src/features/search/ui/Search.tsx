@@ -1,25 +1,25 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import style from './Search.module.scss';
-import { getLocaleStorage, setLocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
 
 interface SearchProps {
   onSubmitSearch: (value: string) => void;
   onResetSearch: () => void;
+  initialValue: string | null;
 }
 
 const Search: FC<SearchProps> = (props) => {
   const [searchValue, setSearchValue] = useState<string>('');
-
   const inputRef = useRef<HTMLInputElement>(null);
 
   const setInitialState = useCallback(() => {
-    const value = getLocaleStorage();
-    if (value) {
-      setSearchValue(value);
+    const { initialValue } = props;
+
+    if (initialValue) {
+      setSearchValue(initialValue);
     } else {
       setSearchValue('');
     }
-  }, [setSearchValue]);
+  }, [props]);
 
   useEffect(() => {
     setInitialState();
@@ -32,7 +32,6 @@ const Search: FC<SearchProps> = (props) => {
 
   const handleSubmitSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLocaleStorage(searchValue);
     props.onSubmitSearch(searchValue);
   };
 
@@ -41,7 +40,6 @@ const Search: FC<SearchProps> = (props) => {
     setSearchValue('');
     inputRef.current?.focus();
     props.onResetSearch();
-    setLocaleStorage('');
   };
 
   return (

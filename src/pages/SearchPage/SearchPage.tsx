@@ -3,14 +3,13 @@ import style from './SearchPage.module.css';
 import { SearchRequest } from 'shared/lib/api/SearchRequest';
 import { HeroResponse } from 'shared/lib/api/types';
 import { Loader } from 'shared/components/Loader/Loader';
-import { Search } from 'widget/Search';
-import { getLocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
 import { List } from 'widget/List';
 import { Pagination } from 'widget/Pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
+import { useSearchQuery } from 'features/search/hooks/useSearchQuery';
+import { Search } from 'features/search';
 
 interface SearchPageState {
-  search: string;
   heroes: Array<HeroResponse>;
   error: Error | null;
   loading: boolean;
@@ -21,7 +20,6 @@ const SearchPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialState: SearchPageState = {
-    search: searchParams.get('query') ?? getLocaleStorage() ?? '',
     heroes: [],
     error: null,
     loading: true,
@@ -30,10 +28,11 @@ const SearchPage: FC = () => {
 
   const [state, setState] = useState<SearchPageState>(initialState);
   const [currentPage, setCurrentPage] = useState<number>(Number(searchParams.get('page') ?? 1));
+  const [searchValue, setSearchValue] = useSearchQuery();
 
   useEffect(() => {
-    setSearchParams({ query: state.search, page: currentPage.toString() });
-  }, []);
+    setSearchParams({ query: searchValue.toString(), page: currentPage.toString() });
+  }, [searchValue, currentPage, setSearchParams]);
 
   const getData = async (search?: string, page?: number) => {
     setState((prevState) => ({ ...prevState, loading: true, error: null }));
@@ -60,17 +59,17 @@ const SearchPage: FC = () => {
   };
 
   useEffect(() => {
-    getData(state.search, currentPage);
-  }, [state.search, currentPage]);
+    getData(searchValue.toString(), currentPage);
+  }, [searchValue, currentPage]);
 
   const onSubmitSearch = (value: string) => {
-    setState((prevState) => ({ ...prevState, search: value }));
+    setSearchValue(value);
     setCurrentPage(1);
     setSearchParams({ query: value, page: '1' });
   };
 
   const onResetSearch = () => {
-    setState((prevState) => ({ ...prevState, search: '' }));
+    setSearchValue('');
     setCurrentPage(1);
     setSearchParams({});
   };
@@ -79,13 +78,13 @@ const SearchPage: FC = () => {
 
   const onChangePage = (page: number) => {
     setCurrentPage(page);
-    setSearchParams({ query: state.search, page: page.toString() });
+    setSearchParams({ query: searchValue.toString(), page: page.toString() });
   };
 
   return (
     <div>
       <div className={style.controls_block}>
-        <Search onSubmitSearch={onSubmitSearch} onResetSearch={onResetSearch} />
+        <Search onSubmitSearch={onSubmitSearch} onResetSearch={onResetSearch} initialValue={searchValue} />
       </div>
 
       {loading ? (

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import style from './Search.module.scss';
 import { getLocaleStorage, setLocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
 
@@ -12,18 +12,18 @@ const Search: FC<SearchProps> = (props) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    setInitialState();
-  }, []);
-
-  const setInitialState = () => {
+  const setInitialState = useCallback(() => {
     const value = getLocaleStorage();
     if (value) {
       setSearchValue(value);
     } else {
       setSearchValue('');
     }
-  };
+  }, [setSearchValue]);
+
+  useEffect(() => {
+    setInitialState();
+  }, [setInitialState]);
 
   const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();

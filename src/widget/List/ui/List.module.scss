@@ -12,6 +12,14 @@
   border: 1px solid var(--border-color);
   background-color: var(--bg-color);
   color: var(--border-color);
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+
+  @media (hover: hover) {
+    &:hover {
+      box-shadow: rgba(233, 233, 241, 0.2) 0px 7px 29px 0px;
+    }
+  }
 }
 
 .hero_img {

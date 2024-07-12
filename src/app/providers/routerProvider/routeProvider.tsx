@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import { Heroe, Layout, NotFound, SearchPage } from 'pages';
+import { Hero, Layout, NotFound, SearchPage } from 'pages';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Paths } from 'shared/types';
+import { loader as loaderHeroes } from '../../../pages/Hero/Hero';
 
 const router = createBrowserRouter(
   [
@@ -14,8 +15,9 @@ const router = createBrowserRouter(
           element: <SearchPage />,
           children: [
             {
-              path: Paths.heroe,
-              element: <Heroe />,
+              path: `${Paths.hero}:id`,
+              element: <Hero />,
+              loader: loaderHeroes,
             },
           ],
         },

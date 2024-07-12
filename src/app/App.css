@@ -3,3 +3,8 @@
   margin: 0 auto;
   text-align: center;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

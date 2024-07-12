@@ -1,25 +1,34 @@
-import { FC } from 'react';
-import style from './List.module.css';
+import { FC, SyntheticEvent } from 'react';
+import style from './List.module.scss';
 import { HeroResponse } from 'shared/lib/api/types';
+import { useNavigate } from 'react-router-dom';
+import { Paths } from 'shared/types';
 
 interface ListProps {
   heroes: Array<HeroResponse>;
 }
 
 const List: FC<ListProps> = ({ heroes }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (e: SyntheticEvent, id: number) => {
+    e.stopPropagation();
+    navigate(`${Paths.hero}${id}`);
+  };
+
   return (
     <>
-      <div className={style.search_list}>
+      <ul className={style.search_list}>
         {heroes.map((hero) => (
-          <div key={hero.id} className={style.card}>
+          <li key={hero.id} className={style.card} onClick={(e) => handleCardClick(e, hero.id)}>
             <div>
               <img src={hero.image} className={style.hero_img} alt={hero.name} />
             </div>
             <h3 className={style.hero_desc}>{hero.name}</h3>
             <p className={style.hero_desc}>Location: {hero.location.name}</p>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </>
   );
 };

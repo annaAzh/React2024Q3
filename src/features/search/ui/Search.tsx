@@ -55,6 +55,7 @@ const Search: FC<SearchProps> = (props) => {
         ></input>
         <button
           type="reset"
+          aria-label="reset"
           className={searchValue ? `${style.clear_btn} ${style.clear_btn_visible}` : `${style.clear_btn}`}
         >
           &times;

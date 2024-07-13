@@ -1,9 +1,5 @@
-import { FetchParams, HeroResponse, SearchResponse } from './types';
-
-const BASE_URL: string = 'https://rickandmortyapi.com/api/character';
-const params: FetchParams = {
-  method: 'GET',
-};
+import { BASE_URL, params } from 'shared/constants';
+import { HeroResponse, SearchResponse } from './types';
 
 const SearchRequest = async (searchValue?: string, page: number = 1): Promise<SearchResponse | undefined> => {
   const searchPath = searchValue ? `&name=${searchValue}` : '';

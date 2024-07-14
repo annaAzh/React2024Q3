@@ -30,7 +30,9 @@ const List: FC<ListProps> = ({ heroes }) => {
             <div>
               <img src={hero.image} className={style.hero_img} alt={hero.name} />
             </div>
-            <h3 className={style.hero_desc}>{hero.name}</h3>
+            <h3 data-testid="cardItem" className={style.hero_desc}>
+              {hero.name}
+            </h3>
             <p className={style.hero_desc}>Location: {hero.location.name}</p>
           </li>
         ))}

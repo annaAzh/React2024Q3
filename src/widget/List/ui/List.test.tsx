@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { List } from './List';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import createFetchMock from 'vitest-fetch-mock';
+import userEvent from '@testing-library/user-event';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();
@@ -65,5 +66,18 @@ describe('Component List', () => {
       const cardElement = screen.getByText(hero.name);
       expect(cardElement).toBeInTheDocument();
     });
+  });
+
+  it('click on card ', async () => {
+    const { getByTestId } = render(
+      <BrowserRouter>
+        <List heroes={heroes} />
+      </BrowserRouter>,
+    );
+
+    const card = getByTestId(/card-1/i);
+    expect(card).toBeInTheDocument();
+    await userEvent.click(card);
+    expect(location.pathname).toBe('/heroes/1');
   });
 });

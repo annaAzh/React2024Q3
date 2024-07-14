@@ -11,7 +11,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css}\"",
     "format:fix": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "prepare": "husky",
-    "test": "vitest",
+    "test": "vitest --run",
     "test:ui": "vitest --ui",
     "coverage": "vitest run --coverage"
   },
@@ -45,6 +45,7 @@
     "typescript": "^5.2.2",
     "vite": "^5.3.1",
     "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "^2.0.2"
+    "vitest": "^2.0.2",
+    "vitest-fetch-mock": "^0.3.0"
   }
 }

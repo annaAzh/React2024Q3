@@ -1,0 +1,1 @@
+export { getPaginationArray } from './getPaginationArray';

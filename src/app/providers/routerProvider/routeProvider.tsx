@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { Hero, Layout, NotFound, SearchPage } from 'pages';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Paths } from 'shared/types';
-import { loader as loaderHeroes } from 'pages/Hero/HeroLoader';
 import { ErrorElement } from 'shared/utils/errorBoundary';
 
 const router = createBrowserRouter([
@@ -18,7 +17,6 @@ const router = createBrowserRouter([
           {
             path: `${Paths.hero}:id`,
             element: <Hero />,
-            loader: loaderHeroes,
             errorElement: <ErrorElement />,
           },
         ],

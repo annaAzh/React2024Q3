@@ -1,13 +1,34 @@
-import { useLoaderData, useLocation, useNavigate, useNavigation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { HeroResponse } from 'shared/lib/api/types';
 import { Paths } from 'shared/types';
 import style from './Hero.module.scss';
+import { useEffect, useState } from 'react';
+import { getSingleHero } from 'shared/lib/api/SearchRequest';
 
 const Hero = () => {
   const navigate = useNavigate();
-  const navigation = useNavigation();
   const locationPath = useLocation();
-  const hero = useLoaderData() as HeroResponse | undefined;
+  const [hero, setHero] = useState<HeroResponse>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const getData = async (id: string) => {
+    try {
+      setLoading(true);
+      const data = await getSingleHero(id);
+
+      setHero(data);
+    } catch {
+      setHero(undefined);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const parse = locationPath.pathname.split('/');
+    const id = parse[parse.length - 1];
+    getData(id);
+  }, [locationPath]);
 
   const handleCloseClick = () => {
     navigate(Paths.base + locationPath.search);
@@ -19,21 +40,13 @@ const Hero = () => {
         <button className={style.close_btn} onClick={handleCloseClick}>
           &times;
         </button>
-        <h2>Hero not found</h2>
+        {loading && <div>Loading...</div>}
       </div>
     );
   }
 
   const { gender, species, status, location } = hero;
   const { name: locationName } = location;
-
-  if (navigation.state === 'loading') {
-    return (
-      <div className={style.wrapper}>
-        <div>Loading...</div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -42,29 +55,33 @@ const Hero = () => {
         <button data-testid="close" className={style.close_btn} onClick={handleCloseClick}>
           &times;
         </button>
-        <div>
-          <img src={hero?.image} className={style.hero_img} alt={hero?.name} />
-        </div>
-        <h3 className={style.hero_desc}>{hero?.name}</h3>
-        {locationName && (
-          <p className={style.hero_info}>
-            <b>Location:</b> {locationName}
-          </p>
-        )}
-        {gender && (
-          <p className={style.hero_info}>
-            <b>Gender:</b> {gender}
-          </p>
-        )}
-        {species && (
-          <p className={style.hero_info}>
-            <b>Species:</b> {species}
-          </p>
-        )}
-        {status && (
-          <p className={style.hero_info}>
-            <b>Status:</b> {status}
-          </p>
+        {hero && (
+          <>
+            <div>
+              <img src={hero?.image} className={style.hero_img} alt={hero?.name} />
+            </div>
+            <h3 className={style.hero_desc}>{hero?.name}</h3>
+            {locationName && (
+              <p className={style.hero_info}>
+                <b>Location:</b> {locationName}
+              </p>
+            )}
+            {gender && (
+              <p className={style.hero_info}>
+                <b>Gender:</b> {gender}
+              </p>
+            )}
+            {species && (
+              <p className={style.hero_info}>
+                <b>Species:</b> {species}
+              </p>
+            )}
+            {status && (
+              <p className={style.hero_info}>
+                <b>Status:</b> {status}
+              </p>
+            )}
+          </>
         )}
       </div>
     </>

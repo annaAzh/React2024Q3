@@ -1,12 +1,10 @@
-import { render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { render } from '@testing-library/react';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
-import createFetchMock from 'vitest-fetch-mock';
 import userEvent from '@testing-library/user-event';
-import { List } from 'widget/List';
-
-const fetchMock = createFetchMock(vi);
-fetchMock.enableMocks();
+import { Hero } from './Hero';
+import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
 
 const heroes = [
   {
@@ -39,47 +37,45 @@ const heroes = [
   },
 ];
 
+export const BASE_URL: string = 'https://rickandmortyapi.com/api/character';
+export const BASE_URL_HERO: string = 'https://rickandmortyapi.com/api/character/1';
+
+const handlers = [
+  http.get(`${BASE_URL}`, async () => {
+    return HttpResponse.json(heroes[0]);
+  }),
+  http.get(`${BASE_URL_HERO}`, async () => {
+    return HttpResponse.json(heroes[0]);
+  }),
+];
+
+const server = setupServer(...handlers);
+
 describe('Component Hero', () => {
-  beforeEach(() => {
-    fetchMock.resetMocks();
+  beforeAll(() => {
+    server.listen();
   });
 
-  it('testing clicking on a card opens a detailed card component', async () => {
-    render(
-      <MemoryRouter>
-        <List heroes={heroes} />
+  afterAll(() => {
+    server.close();
+  });
+
+  it('testing test', async () => {
+    const { getByText, findByText, getByTestId } = render(
+      <MemoryRouter initialEntries={['/heroes/1']}>
+        <Hero />
       </MemoryRouter>,
     );
 
-    heroes.forEach(async (hero) => {
-      const cardElement = screen.getByText(hero.name);
-      expect(cardElement).toBeInTheDocument();
+    const loading = getByText(/loading.../i);
+    expect(loading).toBeInTheDocument();
+    const name = await findByText(heroes[0].name);
+    expect(name).toBeInTheDocument();
+    expect(loading).not.toBeInTheDocument();
 
-      await userEvent.click(cardElement);
-      const male = await screen.findByText(/male/i);
-      expect(male).toBeInTheDocument();
-    });
-  });
+    const closeBtn = getByTestId(/close/i);
+    expect(closeBtn).toBeInTheDocument();
 
-  it('testing clicking on close button hides the component', async () => {
-    render(
-      <MemoryRouter>
-        <List heroes={heroes} />
-      </MemoryRouter>,
-    );
-
-    heroes.forEach(async (hero) => {
-      const cardElement = screen.getByText(hero.name);
-      expect(cardElement).toBeInTheDocument();
-
-      await userEvent.click(cardElement);
-
-      const male = await screen.findByText(/male/i);
-      expect(male).toBeInTheDocument();
-
-      const close = screen.getByTestId('close');
-      await userEvent.click(close);
-      expect(window.location.pathname).toBe('/');
-    });
+    await userEvent.click(closeBtn);
   });
 });

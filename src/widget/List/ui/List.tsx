@@ -21,7 +21,12 @@ const List: FC<ListProps> = ({ heroes }) => {
     <>
       <ul className={style.search_list}>
         {heroes.map((hero) => (
-          <li key={hero.id} className={style.card} onClick={(e) => handleCardClick(e, hero.id)}>
+          <li
+            data-testid={`card-${hero.id}`}
+            key={hero.id}
+            className={style.card}
+            onClick={(e) => handleCardClick(e, hero.id)}
+          >
             <div>
               <img src={hero.image} className={style.hero_img} alt={hero.name} />
             </div>

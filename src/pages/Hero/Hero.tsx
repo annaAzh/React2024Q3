@@ -38,8 +38,8 @@ const Hero = () => {
   return (
     <>
       <div className={style.overlay} onClick={handleCloseClick} />
-      <div className={style.wrapper}>
-        <button className={style.close_btn} onClick={handleCloseClick}>
+      <div className={style.wrapper} data-testid="hero">
+        <button data-testid="close" className={style.close_btn} onClick={handleCloseClick}>
           &times;
         </button>
         <div>

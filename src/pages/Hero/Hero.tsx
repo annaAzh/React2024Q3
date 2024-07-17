@@ -2,10 +2,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { HeroResponse } from 'shared/lib/api/types';
 import { Paths } from 'shared/types';
 import style from './Hero.module.scss';
-import { useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { getSingleHero } from 'shared/lib/api/SearchRequest';
+import { ThemeContext } from 'app/store/Themecontext';
 
-const Hero = () => {
+const Hero: FC = () => {
+  const { isDarkMode } = useContext(ThemeContext);
+
   const navigate = useNavigate();
   const locationPath = useLocation();
   const [hero, setHero] = useState<HeroResponse>();
@@ -36,7 +39,7 @@ const Hero = () => {
 
   if (!hero) {
     return (
-      <div className={style.wrapper}>
+      <div className={isDarkMode ? style.wrapper : style.wrapper_light}>
         <button className={style.close_btn} onClick={handleCloseClick}>
           &times;
         </button>
@@ -50,8 +53,7 @@ const Hero = () => {
 
   return (
     <>
-      <div className={style.overlay} onClick={handleCloseClick} />
-      <div className={style.wrapper} data-testid="hero">
+      <div className={isDarkMode ? `${style.wrapper} ${style.wrapper_dark}` : style.wrapper} data-testid="hero">
         <button data-testid="close" className={style.close_btn} onClick={handleCloseClick}>
           &times;
         </button>

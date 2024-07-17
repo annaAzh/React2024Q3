@@ -7,13 +7,26 @@
 }
 
 .card {
+  list-style: none;
   padding: 20px;
   border-radius: 8px;
+  border: 1px solid var(--bg-color);
+  background-color: var(--border-color);
+  color: var(--bg-color);
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+
+  @media (hover: hover) {
+    &:hover {
+      box-shadow: rgba(21, 21, 22, 0.2) 0px 7px 29px 0px;
+    }
+  }
+}
+
+.card_dark {
   border: 1px solid var(--border-color);
   background-color: var(--bg-color);
   color: var(--border-color);
-  cursor: pointer;
-  transition: all 0.3s ease-in;
 
   @media (hover: hover) {
     &:hover {

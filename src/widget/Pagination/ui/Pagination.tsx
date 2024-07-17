@@ -1,7 +1,8 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import style from './Pagination.module.scss';
 import arrow from 'assets/icons/arrow-left.svg';
 import { getPaginationArray } from 'shared/utils/helpers';
+import { ThemeContext } from 'app/store/Themecontext';
 
 type PaginationProps = {
   totalPage: number;
@@ -12,13 +13,14 @@ type PaginationProps = {
 
 const Pagination: FC<PaginationProps> = (props) => {
   const { currentPage, totalPage, siblings, onChangePage } = props;
+  const { isDarkMode } = useContext(ThemeContext);
 
   const arr = getPaginationArray(totalPage, currentPage, siblings);
 
   return (
     <div className={style.block}>
       <button
-        className={style.arrow_left}
+        className={isDarkMode ? `${style.arrow_left} ${style.arrow_left_dark}` : style.arrow_left}
         disabled={currentPage === 1}
         onClick={() => onChangePage(currentPage > 1 ? currentPage - 1 : currentPage)}
       >
@@ -29,7 +31,17 @@ const Pagination: FC<PaginationProps> = (props) => {
         <button
           key={i}
           className={
-            el === '...' ? style.dots_item : currentPage === el ? `${style.item} ${style.active}` : `${style.item}`
+            el === '...'
+              ? isDarkMode
+                ? `${style.dots_item} ${style.dots_item_dark}`
+                : style.dots_item
+              : currentPage === el
+                ? isDarkMode
+                  ? `${style.item} ${style.item_dark} ${style.active}`
+                  : `${style.item} ${style.active}`
+                : isDarkMode
+                  ? `${style.item} ${style.item_dark}`
+                  : style.item
           }
           onClick={() => {
             if (typeof el === 'number') {
@@ -42,7 +54,7 @@ const Pagination: FC<PaginationProps> = (props) => {
       ))}
 
       <button
-        className={style.arrow_right}
+        className={isDarkMode ? `${style.arrow_right} ${style.arrow_right_dark}` : style.arrow_right}
         disabled={currentPage === totalPage}
         onClick={() => onChangePage(currentPage < totalPage ? currentPage + 1 : currentPage)}
       >

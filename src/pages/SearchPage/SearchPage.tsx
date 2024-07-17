@@ -8,6 +8,7 @@ import { Pagination } from 'widget/Pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { useSearchQuery } from 'features/search/hooks/useSearchQuery';
 import { Search } from 'features/search';
+import { ToggleButton } from 'shared/components';
 
 interface SearchPageState {
   heroes: Array<HeroResponse>;
@@ -85,6 +86,7 @@ const SearchPage: FC = () => {
     <div>
       <div className={style.controls_block}>
         <Search onSubmitSearch={onSubmitSearch} onResetSearch={onResetSearch} initialValue={searchValue} />
+        <ToggleButton />
       </div>
 
       {loading ? (

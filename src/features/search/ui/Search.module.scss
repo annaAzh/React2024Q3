@@ -2,6 +2,7 @@
 
 .search_block {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 20px;
@@ -15,11 +16,17 @@
 .search_input {
   min-width: 300px;
   padding: 4px 20px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--bg-color);
   border-radius: 8px;
   height: 40px;
   outline-color: var(--accent-color);
+  background-color: var(--border-color);
+  color: var(--bg-color);
+}
+
+.search_input_dark {
   background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
   color: var(--border-color);
 }
 

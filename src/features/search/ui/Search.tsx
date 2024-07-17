@@ -1,5 +1,6 @@
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import style from './Search.module.scss';
+import { ThemeContext } from 'app/store/Themecontext';
 
 interface SearchProps {
   onSubmitSearch: (value: string) => void;
@@ -8,6 +9,7 @@ interface SearchProps {
 }
 
 const Search: FC<SearchProps> = (props) => {
+  const { isDarkMode } = useContext(ThemeContext);
   const [searchValue, setSearchValue] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -50,7 +52,7 @@ const Search: FC<SearchProps> = (props) => {
           type="text"
           placeholder="search..."
           value={searchValue}
-          className={style.search_input}
+          className={isDarkMode ? `${style.search_input} ${style.search_input_dark}` : style.search_input}
           onChange={handleChangeSearchValue}
         ></input>
         <button

@@ -1,0 +1,40 @@
+.button {
+  margin-left: auto;
+  background-color: var(--accent-color);
+  border: 0;
+  border-radius: 50px;
+  cursor: pointer;
+  height: 20px;
+  position: relative;
+  width: 40px;
+  transition: all ease .3s;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+}
+
+
+.pin {
+  background-color: var(--bg-color);
+  border-radius: 50%;
+  height: 20px;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 20px;
+  transition: all ease .3s;
+}
+
+.pin_dark {
+  background-color: var(--accent-color);
+}
+
+.button.on {
+  background-color: var(--border-color);
+}
+
+.button.on .pin {
+  left: calc(40px - 20px);
+}

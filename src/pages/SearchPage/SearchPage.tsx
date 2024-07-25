@@ -10,6 +10,8 @@ import { ToggleButton } from 'shared/components';
 import { useGetAllHeroesQuery } from 'shared/api';
 import { HeroResponse } from 'shared/types';
 import { Favourite } from 'widget/Favourite';
+import { useSelector } from 'react-redux';
+import { getFavourites } from 'features/controlFavoriteMovies';
 
 interface SearchPageState {
   heroes: Array<HeroResponse>;
@@ -20,6 +22,7 @@ interface SearchPageState {
 
 const SearchPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const favourite = useSelector(getFavourites);
 
   const initialState: SearchPageState = {
     heroes: [],
@@ -92,7 +95,7 @@ const SearchPage: FC = () => {
             {heroes.length > 0 && (
               <>
                 <List heroes={heroes} />
-                <Favourite />
+                {favourite?.heroes.length > 0 && <Favourite />}
               </>
             )}
             {heroes.length === 0 && <h2 className={style.title}>No results found</h2>}

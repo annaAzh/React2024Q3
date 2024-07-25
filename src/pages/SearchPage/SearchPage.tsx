@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from 'react';
 import style from './SearchPage.module.css';
-import { SearchRequest } from 'shared/lib/api/SearchRequest';
 import { HeroResponse } from 'shared/lib/api/types';
 import { Loader } from 'shared/components/Loader/Loader';
 import { List } from 'widget/List';
@@ -9,6 +8,7 @@ import { Outlet, useSearchParams } from 'react-router-dom';
 import { useSearchQuery } from 'features/search/hooks/useSearchQuery';
 import { Search } from 'features/search';
 import { ToggleButton } from 'shared/components';
+import { useGetAllHeroesQuery } from 'shared/api';
 
 interface SearchPageState {
   heroes: Array<HeroResponse>;
@@ -30,38 +30,32 @@ const SearchPage: FC = () => {
   const [state, setState] = useState<SearchPageState>(initialState);
   const [currentPage, setCurrentPage] = useState<number>(Number(searchParams.get('page') ?? 1));
   const [searchValue, setSearchValue] = useSearchQuery();
+  const { data, isLoading, error } = useGetAllHeroesQuery({ searchValue, currentPage });
 
   useEffect(() => {
     setSearchParams({ query: searchValue.toString(), page: currentPage.toString() });
   }, [searchValue, currentPage, setSearchParams]);
 
-  const getData = async (search?: string, page?: number) => {
-    setState((prevState) => ({ ...prevState, loading: true, error: null }));
-
-    try {
-      const data = await SearchRequest(search, page);
-
-      const totalPages = data?.info?.pages;
-      if (totalPages) {
-        setState((prevState) => ({ ...prevState, totalPages }));
-      }
-
-      if (data?.results) {
-        setState((prevState) => ({ ...prevState, heroes: data?.results || [], loading: false }));
-      }
-      if (data?.error) {
-        throw new Error(data.error);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        setState((prevState) => ({ ...prevState, heroes: [], loading: false }));
-      }
-    }
-  };
-
   useEffect(() => {
-    getData(searchValue.toString(), currentPage);
-  }, [searchValue, currentPage]);
+    if (error && 'status' in error && error.status === 404) {
+      setState({
+        heroes: [],
+        error: null,
+        loading: isLoading,
+        totalPages: null,
+      });
+      return;
+    }
+    if (data) {
+      const totalPages = data?.info?.pages;
+      setState({
+        heroes: data.results || [],
+        error: null,
+        loading: isLoading,
+        totalPages: totalPages || null,
+      });
+    }
+  }, [data, isLoading, error]);
 
   const onSubmitSearch = (value: string) => {
     setSearchValue(value);
@@ -75,7 +69,7 @@ const SearchPage: FC = () => {
     setSearchParams({});
   };
 
-  const { heroes, loading } = state;
+  const { heroes } = state;
 
   const onChangePage = (page: number) => {
     setCurrentPage(page);
@@ -89,7 +83,7 @@ const SearchPage: FC = () => {
         <ToggleButton />
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <Loader />
       ) : (
         <>

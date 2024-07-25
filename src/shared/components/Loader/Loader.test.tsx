@@ -5,6 +5,9 @@ import { Loader } from './Loader';
 import createFetchMock from 'vitest-fetch-mock';
 import { SearchResponse } from 'shared/lib/api/types';
 import { SearchPage } from 'pages';
+import { configureStore } from '@reduxjs/toolkit';
+import { heroesApi } from 'shared/api';
+import { Provider } from 'react-redux';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();
@@ -48,12 +51,21 @@ describe('Component Loader', () => {
 
     fetchMock.mockResponseOnce(JSON.stringify(mockResponse));
 
+    const store = configureStore({
+      reducer: {
+        [heroesApi.reducerPath]: heroesApi.reducer,
+      },
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(heroesApi.middleware),
+    });
+
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route path="/" element={<SearchPage />} />
-        </Routes>
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<SearchPage />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>,
     );
 
     expect(screen.getByAltText(/loader/i)).toBeInTheDocument();

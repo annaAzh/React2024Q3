@@ -1,26 +1,48 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi, Mock } from 'vitest';
+import { describe, expect, it, afterAll, beforeAll } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import { SearchPage } from './SearchPage';
-import { SearchRequest } from 'shared/lib/api/SearchRequest';
+import { configureStore } from '@reduxjs/toolkit';
+import { heroesApi } from 'shared/api';
+import { Provider } from 'react-redux';
+import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
 
-vi.mock('shared/lib/api/SearchRequest', () => ({
-  SearchRequest: vi.fn(),
-}));
+const mockResult = { info: { pages: 1 }, results: [] };
 
-const mockSearchRequest = SearchRequest as Mock;
+export const BASE_URL: string = 'https://rickandmortyapi.com/api/character';
 
-describe('SearchPage Component', () => {
-  it('displays "No results found" when no heroes are found', async () => {
-    mockSearchRequest.mockResolvedValue({
-      info: { pages: 1 },
-      results: [],
+const handlers = [
+  http.get(`${BASE_URL}`, async () => {
+    return HttpResponse.json(mockResult);
+  }),
+];
+
+const server = setupServer(...handlers);
+
+describe('', () => {
+  beforeAll(() => {
+    server.listen();
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
+  it('testing test', async () => {
+    const store = configureStore({
+      reducer: {
+        [heroesApi.reducerPath]: heroesApi.reducer,
+      },
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(heroesApi.middleware),
     });
 
     render(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter>
+          <SearchPage />
+        </MemoryRouter>
+      </Provider>,
     );
 
     const noResultsMessage = await screen.findByText(/No results found/i);

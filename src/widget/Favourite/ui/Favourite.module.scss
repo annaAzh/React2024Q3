@@ -1,17 +1,19 @@
 .favourite_block {
-  padding: 30px;
+  padding: 10px;
   border: 1px solid var(--bg-color);
   background-color: var(--border-color);
   border-radius: 10px;
   box-shadow: var(--bg-color) 0px 7px 29px 0px;
   color: var(--bg-color);
-  font-size: 32px;
+  font-size: 22px;
   text-transform: uppercase;
   display: flex;
   align-items: center;
   position: fixed;
-  bottom: 40px;
-  gap: 30px;
+  bottom: 10px;
+  left: 10%;
+  column-gap: 20px;
+  z-index: 100;
 }
 
 .favourite_block_dark {

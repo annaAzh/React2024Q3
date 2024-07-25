@@ -3,6 +3,10 @@ import style from './List.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { HeroResponse, Paths } from 'shared/types';
 import { ThemeContext } from 'app/store/Themecontext';
+import { useAppDispatch } from 'shared/hooks/useAppDispatch/useAppDispatch';
+import { addFavourite, removeFavourite } from 'features/controlFavoriteMovies/slices/favoriteSlice';
+import { useSelector } from 'react-redux';
+import { getFavourites } from 'features/controlFavoriteMovies';
 
 interface ListProps {
   heroes: Array<HeroResponse>;
@@ -10,6 +14,8 @@ interface ListProps {
 
 const List: FC<ListProps> = ({ heroes }) => {
   const { isDarkMode } = useContext(ThemeContext);
+  const dispatch = useAppDispatch();
+  const favourites = useSelector(getFavourites);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,8 +46,22 @@ const List: FC<ListProps> = ({ heroes }) => {
               <input
                 type="checkbox"
                 className={style.checkbox}
+                checked={favourites?.heroes?.some((item) => hero.id === item.id)}
                 onClick={(e) => {
                   e.stopPropagation();
+                }}
+                onChange={() => {
+                  const checked = favourites.heroes.some((item) => hero.id === item.id);
+                  const item = {
+                    id: hero.id,
+                    name: hero.name,
+                    status: hero.status,
+                    species: hero.species,
+                    gender: hero.gender,
+                    location: { name: hero.location.name },
+                    image: hero.image,
+                  };
+                  checked ? dispatch(removeFavourite(item)) : dispatch(addFavourite(item));
                 }}
               />
             </div>

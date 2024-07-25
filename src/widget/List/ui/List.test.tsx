@@ -4,6 +4,8 @@ import { List } from './List';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import createFetchMock from 'vitest-fetch-mock';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { store } from 'app/providers/routerProvider/storeProvider/config/store';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();
@@ -46,9 +48,11 @@ describe('Component List', () => {
 
   it('List renders 2 cards', () => {
     render(
-      <MemoryRouter>
-        <List heroes={heroes} />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter>
+          <List heroes={heroes} />
+        </MemoryRouter>
+      </Provider>,
     );
 
     const listElement = screen.getByRole('list');
@@ -57,9 +61,11 @@ describe('Component List', () => {
 
   it('card renders the relevant card data', () => {
     render(
-      <MemoryRouter>
-        <List heroes={heroes} />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter>
+          <List heroes={heroes} />
+        </MemoryRouter>
+      </Provider>,
     );
 
     heroes.forEach((hero) => {
@@ -70,9 +76,11 @@ describe('Component List', () => {
 
   it('click on card ', async () => {
     const { getByTestId } = render(
-      <BrowserRouter>
-        <List heroes={heroes} />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <List heroes={heroes} />
+        </BrowserRouter>
+      </Provider>,
     );
 
     const card = getByTestId(/card-1/i);

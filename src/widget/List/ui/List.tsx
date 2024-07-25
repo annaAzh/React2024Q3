@@ -1,8 +1,7 @@
 import { FC, SyntheticEvent, useContext } from 'react';
 import style from './List.module.scss';
-import { HeroResponse } from 'shared/lib/api/types';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Paths } from 'shared/types';
+import { HeroResponse, Paths } from 'shared/types';
 import { ThemeContext } from 'app/store/Themecontext';
 
 interface ListProps {
@@ -37,6 +36,15 @@ const List: FC<ListProps> = ({ heroes }) => {
               {hero.name}
             </h3>
             <p className={style.hero_desc}>Location: {hero.location.name}</p>
+            <div className={style.checkbox_wrapper}>
+              <input
+                type="checkbox"
+                className={style.checkbox}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              />
+            </div>
           </li>
         ))}
       </ul>

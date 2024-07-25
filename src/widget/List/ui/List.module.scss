@@ -7,6 +7,11 @@
 }
 
 .card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+
   list-style: none;
   padding: 20px;
   border-radius: 8px;
@@ -48,4 +53,15 @@
 .title {
   margin-top: 60px;
   color: var(--border-color);
+}
+
+.checkbox_wrapper {
+  display: flex;
+  margin-left: auto;
+  align-items: flex-end;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
 }

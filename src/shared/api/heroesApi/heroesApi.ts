@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BASE_URL } from 'shared/constants';
-import { SearchResponse } from 'shared/lib/api/types';
+import { HeroResponse, SearchResponse } from 'shared/types';
 
 export interface GetHeroesSearchParams {
   searchValue?: string;
@@ -14,7 +14,10 @@ export const heroesApi = createApi({
     getAllHeroes: builder.query<SearchResponse, GetHeroesSearchParams>({
       query: ({ searchValue = '', currentPage }) => `?page=${currentPage}${searchValue ? `&name=${searchValue}` : ''}`,
     }),
+    getHero: builder.query<HeroResponse, string>({
+      query: (id) => `/${id}`,
+    }),
   }),
 });
 
-export const { useGetAllHeroesQuery } = heroesApi;
+export const { useGetAllHeroesQuery, useGetHeroQuery } = heroesApi;

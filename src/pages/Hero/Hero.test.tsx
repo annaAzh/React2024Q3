@@ -5,6 +5,9 @@ import userEvent from '@testing-library/user-event';
 import { Hero } from './Hero';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import { heroesApi } from 'shared/api';
 
 const heroes = [
   {
@@ -61,10 +64,20 @@ describe('Component Hero', () => {
   });
 
   it('testing test', async () => {
+    const store = configureStore({
+      reducer: {
+        [heroesApi.reducerPath]: heroesApi.reducer,
+      },
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(heroesApi.middleware),
+    });
+
     const { getByText, findByText, getByTestId } = render(
-      <MemoryRouter initialEntries={['/heroes/1']}>
-        <Hero />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/heroes/1']}>
+          <Hero />
+        </MemoryRouter>
+        ,
+      </Provider>,
     );
 
     const loading = getByText(/loading.../i);

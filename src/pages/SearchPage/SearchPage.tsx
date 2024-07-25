@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from 'react';
 import style from './SearchPage.module.css';
-import { HeroResponse } from 'shared/lib/api/types';
 import { Loader } from 'shared/components/Loader/Loader';
 import { List } from 'widget/List';
 import { Pagination } from 'widget/Pagination';
@@ -9,6 +8,7 @@ import { useSearchQuery } from 'features/search/hooks/useSearchQuery';
 import { Search } from 'features/search';
 import { ToggleButton } from 'shared/components';
 import { useGetAllHeroesQuery } from 'shared/api';
+import { HeroResponse } from 'shared/types';
 
 interface SearchPageState {
   heroes: Array<HeroResponse>;

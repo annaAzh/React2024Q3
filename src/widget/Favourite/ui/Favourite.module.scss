@@ -1,0 +1,29 @@
+.favourite_block {
+  padding: 30px;
+  border: 1px solid var(--bg-color);
+  background-color: var(--border-color);
+  border-radius: 10px;
+  box-shadow: var(--bg-color) 0px 7px 29px 0px;
+  color: var(--bg-color);
+  font-size: 32px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 40px;
+  gap: 30px;
+}
+
+.favourite_block_dark {
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--border-color) 0px 7px 29px 0px;
+  color: var(--border-color);
+}
+
+
+.btns_wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}

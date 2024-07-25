@@ -9,6 +9,7 @@ import { Search } from 'features/search';
 import { ToggleButton } from 'shared/components';
 import { useGetAllHeroesQuery } from 'shared/api';
 import { HeroResponse } from 'shared/types';
+import { Favourite } from 'widget/Favourite';
 
 interface SearchPageState {
   heroes: Array<HeroResponse>;
@@ -91,6 +92,7 @@ const SearchPage: FC = () => {
             {heroes.length > 0 && (
               <>
                 <List heroes={heroes} />
+                <Favourite />
               </>
             )}
             {heroes.length === 0 && <h2 className={style.title}>No results found</h2>}

@@ -88,4 +88,19 @@ describe('Component List', () => {
     await userEvent.click(card);
     expect(location.pathname).toBe('/heroes/1');
   });
+
+  it('checked on change checkbox', async () => {
+    const { getAllByRole } = render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <List heroes={heroes} />
+        </BrowserRouter>
+      </Provider>,
+    );
+
+    const checkbox = getAllByRole('checkbox')[0];
+    expect(checkbox).toBeInTheDocument();
+    await userEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
+  });
 });

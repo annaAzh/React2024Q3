@@ -5,6 +5,5 @@ import { favoriteReducer } from 'features/controlFavoriteMovies/slices/favoriteS
 
 export const rootReducer = combineReducers<StateSchema>({
   [heroesApi.reducerPath]: heroesApi.reducer,
-
   favourite: favoriteReducer,
 });

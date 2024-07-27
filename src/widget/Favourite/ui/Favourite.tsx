@@ -26,7 +26,10 @@ const Favourite: FC<FavouriteProps> = () => {
   };
 
   return (
-    <div className={isDarkMode ? `${style.favourite_block} ${style.favourite_block_dark}` : style.favourite_block}>
+    <div
+      data-testid="favourite_block"
+      className={isDarkMode ? `${style.favourite_block} ${style.favourite_block_dark}` : style.favourite_block}
+    >
       <div>
         {heroes.length} {heroes.length === 1 ? 'item is' : 'items are'} selected
       </div>

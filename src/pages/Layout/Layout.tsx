@@ -7,7 +7,7 @@ const Layout: FC = () => {
   const { isDarkMode } = useContext(ThemeContext);
 
   return (
-    <div className={isDarkMode ? `${style.page} ${style.page_dark}` : style.page}>
+    <div data-testid="layout" className={isDarkMode ? `${style.page} ${style.page_dark}` : style.page}>
       <Outlet />
     </div>
   );

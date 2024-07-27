@@ -5,7 +5,7 @@ import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import createFetchMock from 'vitest-fetch-mock';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { store } from 'app/providers/routerProvider/storeProvider/config/store';
+import { store } from 'app/providers/storeProvider/config/store';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();

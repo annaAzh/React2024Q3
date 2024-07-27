@@ -1,4 +1,4 @@
-import { RootState } from 'app/providers/routerProvider/storeProvider';
+import { RootState } from 'app/providers/storeProvider';
 import { FavouriteShema } from '../types/favoriteTypes';
 
 const getFavourites = (state: RootState): FavouriteShema => {

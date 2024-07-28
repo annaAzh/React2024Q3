@@ -1,29 +1,10 @@
 import { it, describe, expect } from 'vitest';
-import { FavouriteHero, FavouriteShema } from '../types/favoriteTypes';
+import { FavouriteShema } from '../types/favoriteTypes';
 import { addFavourite, removeFavourite, clearFavourite } from './favoriteSlice';
 import { favoriteReducer } from './favoriteSlice';
+import { hero, second_hero } from 'shared/lib/__mock__';
 
 describe('favourite slice test', () => {
-  const hero: FavouriteHero = {
-    id: 5,
-    name: 'Rick',
-    status: 'alive',
-    species: 'Human',
-    gender: 'male',
-    location: { name: 'some location' },
-    image: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
-  };
-
-  const second_hero: FavouriteHero = {
-    id: 6,
-    name: 'Rick6',
-    status: 'alive',
-    species: 'Human',
-    gender: 'male',
-    location: { name: 'some location' },
-    image: 'https://rickandmortyapi.com/api/character/avatar/6.jpeg',
-  };
-
   it('expect state add new hero', () => {
     const initialState: FavouriteShema = { heroes: [] };
     expect(favoriteReducer(initialState, addFavourite(hero))).toEqual({ heroes: [hero] });

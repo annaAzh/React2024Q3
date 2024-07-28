@@ -6,8 +6,7 @@ import { Hero } from './Hero';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import { heroesApi } from 'shared/api';
+import { store } from 'shared/lib/__mock__';
 
 const heroes = [
   {
@@ -64,13 +63,6 @@ describe('Component Hero', () => {
   });
 
   it('testing test', async () => {
-    const store = configureStore({
-      reducer: {
-        [heroesApi.reducerPath]: heroesApi.reducer,
-      },
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(heroesApi.middleware),
-    });
-
     const { getByText, findByText, getByTestId } = render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/heroes/1']}>

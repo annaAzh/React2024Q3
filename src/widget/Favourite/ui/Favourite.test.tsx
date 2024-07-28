@@ -4,60 +4,15 @@ import { Provider } from 'react-redux';
 import { describe, expect, it, vi } from 'vitest';
 import { Favourite } from './Favourite';
 import userEvent from '@testing-library/user-event';
-import { configureStore } from '@reduxjs/toolkit';
-import { favoriteReducer } from 'features/controlFavoriteMovies';
-import { heroesApi } from 'shared/api';
 import { List } from 'widget/List';
 import { BrowserRouter } from 'react-router-dom';
 import style from './Favourite.module.scss';
-
-export function createTestStore() {
-  const store = configureStore({
-    reducer: {
-      [heroesApi.reducerPath]: heroesApi.reducer,
-      favourite: favoriteReducer,
-    },
-  });
-  return store;
-}
-
-const heroes = [
-  {
-    id: 1,
-    name: 'Rick',
-    status: 'Alive',
-    species: 'Human',
-    type: '',
-    gender: 'Male',
-    origin: { name: 'Earth' },
-    location: { name: 'Mars' },
-    image: 'string',
-    episode: ['Episode 1', 'Episode 2'],
-    url: 'string',
-    created: '2021-01-01T00:00:00.000Z',
-  },
-  {
-    id: 2,
-    name: 'Morty',
-    status: 'Alive',
-    species: 'Human',
-    type: '',
-    gender: 'Male',
-    origin: { name: 'Earth' },
-    location: { name: 'Mars' },
-    image: 'string',
-    episode: ['Episode 1', 'Episode 2'],
-    url: 'string',
-    created: '2021-01-01T00:00:00.000Z',
-  },
-];
+import { heroes, store } from 'shared/lib/__mock__';
 
 global.URL.createObjectURL = vi.fn(() => 'fake-url');
 const mockContextValue = { isDarkMode: false, setIsDarkMode: vi.fn() };
 
 describe('Favourite component', () => {
-  const store = createTestStore();
-
   it('renders Favourite component', async () => {
     const { getAllByRole } = render(
       <ThemeContext.Provider value={mockContextValue}>

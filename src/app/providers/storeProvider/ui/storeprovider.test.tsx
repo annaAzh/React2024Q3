@@ -1,14 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-
 import { Provider } from 'react-redux';
 import { StoreProvider } from './storeProvider';
-import { configureStore } from '@reduxjs/toolkit';
+import { store } from '../config/store';
 
 describe('StoreProvider component', () => {
   it('renders children correctly', () => {
-    const store = configureStore({ reducer: {} });
-
     render(
       <Provider store={store}>
         <StoreProvider>

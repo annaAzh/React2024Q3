@@ -2,11 +2,10 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, afterAll, beforeAll } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import { SearchPage } from './SearchPage';
-import { configureStore } from '@reduxjs/toolkit';
-import { heroesApi } from 'shared/api';
 import { Provider } from 'react-redux';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
+import { store } from 'shared/lib/__mock__';
 
 const mockResult = { info: { pages: 1 }, results: [] };
 
@@ -30,13 +29,6 @@ describe('', () => {
   });
 
   it('testing test', async () => {
-    const store = configureStore({
-      reducer: {
-        [heroesApi.reducerPath]: heroesApi.reducer,
-      },
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(heroesApi.middleware),
-    });
-
     render(
       <Provider store={store}>
         <MemoryRouter>

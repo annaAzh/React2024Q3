@@ -4,10 +4,9 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Loader } from './Loader';
 import createFetchMock from 'vitest-fetch-mock';
 import { SearchPage } from 'pages';
-import { configureStore } from '@reduxjs/toolkit';
-import { heroesApi } from 'shared/api';
 import { Provider } from 'react-redux';
 import { SearchResponse } from 'shared/types';
+import { store } from 'shared/lib/__mock__';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();
@@ -50,13 +49,6 @@ describe('Component Loader', () => {
     };
 
     fetchMock.mockResponseOnce(JSON.stringify(mockResponse));
-
-    const store = configureStore({
-      reducer: {
-        [heroesApi.reducerPath]: heroesApi.reducer,
-      },
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(heroesApi.middleware),
-    });
 
     render(
       <Provider store={store}>

@@ -5,41 +5,10 @@ import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import createFetchMock from 'vitest-fetch-mock';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { store } from 'app/providers/storeProvider/config/store';
+import { heroes, store } from 'shared/lib/__mock__';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();
-
-const heroes = [
-  {
-    id: 1,
-    name: 'Rick',
-    status: 'Alive',
-    species: 'Human',
-    type: '',
-    gender: 'Male',
-    origin: { name: 'Earth' },
-    location: { name: 'Mars' },
-    image: 'string',
-    episode: ['Episode 1', 'Episode 2'],
-    url: 'string',
-    created: '2021-01-01T00:00:00.000Z',
-  },
-  {
-    id: 2,
-    name: 'Morty',
-    status: 'Alive',
-    species: 'Human',
-    type: '',
-    gender: 'Male',
-    origin: { name: 'Earth' },
-    location: { name: 'Mars' },
-    image: 'string',
-    episode: ['Episode 1', 'Episode 2'],
-    url: 'string',
-    created: '2021-01-01T00:00:00.000Z',
-  },
-];
 
 describe('Component List', () => {
   beforeEach(() => {

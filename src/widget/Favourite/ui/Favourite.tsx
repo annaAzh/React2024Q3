@@ -30,7 +30,7 @@ const Favourite: FC<FavouriteProps> = () => {
       data-testid="favourite_block"
       className={isDarkMode ? `${style.favourite_block} ${style.favourite_block_dark}` : style.favourite_block}
     >
-      <div>
+      <div className={style.info}>
         {heroes.length} {heroes.length === 1 ? 'item is' : 'items are'} selected
       </div>
       <div className={style.btns_wrapper}>

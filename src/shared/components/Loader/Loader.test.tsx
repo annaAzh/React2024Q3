@@ -3,11 +3,11 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Loader } from './Loader';
 import createFetchMock from 'vitest-fetch-mock';
-import { SearchResponse } from 'shared/lib/api/types';
 import { SearchPage } from 'pages';
 import { configureStore } from '@reduxjs/toolkit';
 import { heroesApi } from 'shared/api';
 import { Provider } from 'react-redux';
+import { SearchResponse } from 'shared/types';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();

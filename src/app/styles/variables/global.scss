@@ -1,0 +1,23 @@
+:root {
+  --border-color: #ececec;
+  --accent-color: #e4ad9b;
+  --danger-color: #c74318;
+  --bg-color: #262841;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+%button {
+  height: 40px;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease-in;
+}

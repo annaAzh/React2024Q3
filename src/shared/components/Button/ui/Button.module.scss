@@ -1,0 +1,28 @@
+@import '../../../../app/styles/variables/global.scss';
+
+.button {
+  @extend %button;
+  background-color: transparent;
+  color: var(--bg-color);
+  border: 1px solid var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (hover: hover) {
+  .button:hover {
+    background: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    color: var(--bg-color);
+  }
+}
+
+.button:active {
+  transform: translateY(2px);
+}
+
+.button_dark {
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+}

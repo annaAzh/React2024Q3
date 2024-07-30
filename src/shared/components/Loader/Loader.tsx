@@ -5,7 +5,7 @@ import style from './Loader.module.css';
 const Loader: FC = () => {
   return (
     <div className={style.loader}>
-      <img className={style.loader_img} src={loader} alt="loader" />
+      <img className={style.loader_img} src={loader.src} alt="loader" />
     </div>
   );
 };

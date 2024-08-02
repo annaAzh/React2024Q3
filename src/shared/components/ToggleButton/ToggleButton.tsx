@@ -1,16 +1,12 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import style from './ToggleButton.module.scss';
-import { ThemeContext } from 'app/store/Themecontext';
+import { useTheme } from 'app/providers/themeProvider/hook';
 
 const ToggleButton: FC = () => {
-  const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
-
-  const handleClick = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+  const { isDarkMode, toggleTheme } = useTheme();
 
   return (
-    <button className={isDarkMode ? `${style.button} ${style.on}` : style.button} onClick={handleClick}>
+    <button className={isDarkMode ? `${style.button} ${style.on}` : style.button} onClick={() => toggleTheme()}>
       <span className={isDarkMode ? `${style.pin} ${style.pin_dark}` : style.pin}></span>
     </button>
   );

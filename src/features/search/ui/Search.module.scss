@@ -1,4 +1,4 @@
-@import '../../../app/styles/variables/global';
+@import '../../../app/styles/placeholder.scss';
 
 .search_block {
   display: flex;
@@ -50,7 +50,7 @@
 }
 
 .search_button {
-  @extend %button;
+  @extend %button !optional;
   background-color: transparent;
   color: var(--accent-color);
   border: 1px solid var(--accent-color);

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { HeroResponse } from 'shared/types';
 import style from './Hero.module.scss';
+import Image from 'next/image';
 
 type HeroCardProps = {
   hero: HeroResponse;
@@ -12,7 +13,15 @@ const HeroCard: FC<HeroCardProps> = ({ hero }) => {
   return (
     <>
       <div>
-        <img src={hero?.image} className={style.hero_img} alt={hero?.name} />
+        <Image
+          src={hero?.image}
+          className={style.hero_img}
+          alt={hero?.name}
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{ maxWidth: '300px', height: 'auto' }}
+        />
       </div>
       <h3 className={style.hero_desc}>{hero?.name}</h3>
       {locationName && (

@@ -9,11 +9,11 @@ vi.mock('next/navigation', () => ({
   redirect: vi.fn(),
 }));
 
-describe('NotFound Component', () => {
+describe('Error Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
-  it('render not found page', async () => {
+  it('render not error page', async () => {
     const statusCode = 500;
     render(
       <Provider store={store}>

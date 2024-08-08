@@ -1,5 +1,5 @@
 export const enum Paths {
   base = '/',
-  hero = 'heroes/',
+  hero = 'heroes',
   notFound = '*',
 }

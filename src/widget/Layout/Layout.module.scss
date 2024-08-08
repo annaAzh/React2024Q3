@@ -1,0 +1,15 @@
+.page {
+  background-color: var(--border-color);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  padding: 2rem 2rem 80px 2rem;
+
+  @media (max-width: 600px) {
+    padding: 1rem 2rem 116px 1rem;
+  }
+}
+
+.page.page_dark {
+  background-image: url('../../assets/bg.jpg');
+}

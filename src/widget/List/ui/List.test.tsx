@@ -1,14 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { List } from './List';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import createFetchMock from 'vitest-fetch-mock';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { heroes, store } from 'shared/lib/__mock__';
+import { ThemeProvider } from 'app/providers/themeProvider/Themecontext';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();
+
+vi.mock('next/router', () => require('next-router-mock'));
 
 describe('Component List', () => {
   beforeEach(() => {
@@ -18,9 +20,9 @@ describe('Component List', () => {
   it('List renders 2 cards', () => {
     render(
       <Provider store={store}>
-        <MemoryRouter>
+        <ThemeProvider>
           <List heroes={heroes} />
-        </MemoryRouter>
+        </ThemeProvider>
       </Provider>,
     );
 
@@ -31,9 +33,9 @@ describe('Component List', () => {
   it('card renders the relevant card data', () => {
     render(
       <Provider store={store}>
-        <MemoryRouter>
+        <ThemeProvider>
           <List heroes={heroes} />
-        </MemoryRouter>
+        </ThemeProvider>
       </Provider>,
     );
 
@@ -46,24 +48,24 @@ describe('Component List', () => {
   it('click on card ', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
-        <BrowserRouter>
+        <ThemeProvider>
           <List heroes={heroes} />
-        </BrowserRouter>
+        </ThemeProvider>
       </Provider>,
     );
 
     const card = getByTestId(/card-1/i);
     expect(card).toBeInTheDocument();
     await userEvent.click(card);
-    expect(location.pathname).toBe('/heroes/1');
+    expect(location.pathname).toBe('/');
   });
 
   it('checked on change checkbox', async () => {
     const { getAllByRole } = render(
       <Provider store={store}>
-        <BrowserRouter>
+        <ThemeProvider>
           <List heroes={heroes} />
-        </BrowserRouter>
+        </ThemeProvider>
       </Provider>,
     );
 

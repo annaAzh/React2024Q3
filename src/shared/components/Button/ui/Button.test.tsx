@@ -1,13 +1,13 @@
 import { it, describe, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { ThemeContext } from 'app/store/Themecontext';
 import { Button } from './Button';
 import style from './Button.module.scss';
 import userEvent from '@testing-library/user-event';
+import { ThemeContext, ThemeContextType } from 'app/providers/themeProvider/Themecontext';
 
 describe('Button component', () => {
   it('renders button with dark mode styles when isDarkMode is true', () => {
-    const mockContextValue = { isDarkMode: true, setIsDarkMode: () => {} };
+    const mockContextValue: ThemeContextType = { isDarkMode: true, toggleTheme: vi.fn() };
     render(
       <ThemeContext.Provider value={mockContextValue}>
         <Button>Select All</Button>
@@ -20,7 +20,7 @@ describe('Button component', () => {
   });
 
   it('renders button with light mode styles when isDarkMode is false', () => {
-    const mockContextValue = { isDarkMode: false, setIsDarkMode: () => {} };
+    const mockContextValue: ThemeContextType = { isDarkMode: false, toggleTheme: vi.fn() };
     render(
       <ThemeContext.Provider value={mockContextValue}>
         <Button>Select All</Button>
@@ -32,10 +32,10 @@ describe('Button component', () => {
     expect(button).toHaveClass(style.button);
   });
 
-  it('click on button', async () => {
+  it('it be click on button', async () => {
     const mockClick = vi.fn();
 
-    const mockContextValue = { isDarkMode: true, setIsDarkMode: () => {} };
+    const mockContextValue: ThemeContextType = { isDarkMode: true, toggleTheme: vi.fn() };
     render(
       <ThemeContext.Provider value={mockContextValue}>
         <Button onClick={mockClick}>Select All</Button>

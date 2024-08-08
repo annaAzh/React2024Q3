@@ -1,28 +1,26 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { ThemeContext } from 'app/store/Themecontext';
 import { Provider } from 'react-redux';
 import { describe, expect, it, vi } from 'vitest';
 import { Favourite } from './Favourite';
 import userEvent from '@testing-library/user-event';
 import { List } from 'widget/List';
-import { BrowserRouter } from 'react-router-dom';
 import style from './Favourite.module.scss';
 import { heroes, store } from 'shared/lib/__mock__';
+import { ThemeProvider } from 'app/providers/themeProvider/Themecontext';
 
 global.URL.createObjectURL = vi.fn(() => 'fake-url');
-const mockContextValue = { isDarkMode: false, setIsDarkMode: vi.fn() };
+
+vi.mock('next/router', () => require('next-router-mock'));
 
 describe('Favourite component', () => {
   it('renders Favourite component', async () => {
     const { getAllByRole } = render(
-      <ThemeContext.Provider value={mockContextValue}>
-        <Provider store={store}>
-          <BrowserRouter>
-            <List heroes={heroes} />
-            <Favourite />
-          </BrowserRouter>
-        </Provider>
-      </ThemeContext.Provider>,
+      <Provider store={store}>
+        <ThemeProvider>
+          <List heroes={heroes} />
+          <Favourite />
+        </ThemeProvider>
+      </Provider>,
     );
 
     const checkbox = getAllByRole('checkbox')[0];

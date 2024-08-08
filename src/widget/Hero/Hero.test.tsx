@@ -1,12 +1,11 @@
 import { render } from '@testing-library/react';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { Hero } from './Hero';
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import { Provider } from 'react-redux';
 import { store } from 'shared/lib/__mock__';
+import { ThemeProvider } from 'app/providers/themeProvider/Themecontext';
 
 const heroes = [
   {
@@ -53,6 +52,8 @@ const handlers = [
 
 const server = setupServer(...handlers);
 
+vi.mock('next/router', () => require('next-router-mock'));
+
 describe('Component Hero', () => {
   beforeAll(() => {
     server.listen();
@@ -63,24 +64,18 @@ describe('Component Hero', () => {
   });
 
   it('testing test', async () => {
-    const { getByText, findByText, getByTestId } = render(
+    const { findByText, getByTestId } = render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={['/heroes/1']}>
-          <Hero />
-        </MemoryRouter>
-        ,
+        <ThemeProvider>
+          <Hero hero={heroes[0]} />
+        </ThemeProvider>
       </Provider>,
     );
 
-    const loading = getByText(/loading.../i);
-    expect(loading).toBeInTheDocument();
     const name = await findByText(heroes[0].name);
     expect(name).toBeInTheDocument();
-    expect(loading).not.toBeInTheDocument();
 
     const closeBtn = getByTestId(/close/i);
     expect(closeBtn).toBeInTheDocument();
-
-    await userEvent.click(closeBtn);
   });
 });

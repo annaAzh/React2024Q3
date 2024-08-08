@@ -6,7 +6,7 @@ import Image from 'next/image';
 const Loader: FC = () => {
   return (
     <div className={style.loader}>
-      <Image className={style.loader_img} width={100} height={100} src={loader.src} alt="loader" />
+      <Image className={style.loader_img} width={100} height={100} src={loader} alt="loader" priority />
     </div>
   );
 };

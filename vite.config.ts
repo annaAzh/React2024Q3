@@ -13,6 +13,7 @@ export default defineConfig({
     setupFiles: './src/setupTests.ts',
     coverage: {
       provider: 'v8',
+      include: ['**/src/**', '**/pages/**'],
     },
   },
 });

@@ -63,7 +63,7 @@ describe('Component Hero', () => {
     server.close();
   });
 
-  it('testing test', async () => {
+  it('render hero card', async () => {
     const { findByText, getByTestId } = render(
       <Provider store={store}>
         <ThemeProvider>
@@ -77,5 +77,18 @@ describe('Component Hero', () => {
 
     const closeBtn = getByTestId(/close/i);
     expect(closeBtn).toBeInTheDocument();
+  });
+
+  it('expect heroes are not at document', async () => {
+    const { findByText } = render(
+      <Provider store={store}>
+        <ThemeProvider>
+          <Hero hero={null} />
+        </ThemeProvider>
+      </Provider>,
+    );
+
+    const text = await findByText(/Hero not found/i);
+    expect(text).toBeInTheDocument();
   });
 });

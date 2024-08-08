@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import HeroCard from './HeroCard';
 
 type HeroProps = {
-  hero: HeroResponse;
+  hero: HeroResponse | null;
 };
 
 const Hero: FC<HeroProps> = (props) => {

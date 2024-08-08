@@ -8,7 +8,7 @@ interface ErrorProps {
   statusCode: number;
 }
 
-const Error = ({ statusCode }: ErrorProps) => {
+const ErrorPage = ({ statusCode }: ErrorProps) => {
   return (
     <Layout>
       <div className={style.error_block}>
@@ -27,9 +27,9 @@ const Error = ({ statusCode }: ErrorProps) => {
   );
 };
 
-Error.getInitialProps = ({ res, err }: NextPageContext) => {
+ErrorPage.getInitialProps = ({ res, err }: NextPageContext) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
   return { statusCode };
 };
 
-export default Error;
+export default ErrorPage;

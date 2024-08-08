@@ -4,8 +4,9 @@ import { Pagination } from './Pagination';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { store } from 'shared/lib/__mock__';
-import { ThemeProvider } from 'app/providers/themeProvider/Themecontext';
+import { ThemeContext, ThemeContextType, ThemeProvider } from 'app/providers/themeProvider/Themecontext';
 import { useState } from 'react';
+import style from './Pagination.module.scss';
 
 vi.mock('next/router', () => ({
   useRouter: () => ({
@@ -113,6 +114,86 @@ describe('Pagination Component', () => {
       expect(screen.getByTestId('current-page').textContent).toBe('4');
 
       const activeBtn = screen.getByRole('button', { name: /4/i });
+      expect(activeBtn).toHaveClass(/active/i);
+    });
+  });
+
+  it('renders dots component with light mode styles when isDarkMode is false', () => {
+    const mockContextValue: ThemeContextType = { isDarkMode: false, toggleTheme: vi.fn() };
+    render(
+      <ThemeContext.Provider value={mockContextValue}>
+        <Pagination
+          totalPage={10}
+          currentPage={6}
+          siblings={1}
+          onChangePage={(page) => {
+            onChangePage(page);
+          }}
+        />
+      </ThemeContext.Provider>,
+    );
+    const button = screen.getAllByText('...');
+    expect(button[0]).toBeInTheDocument();
+    expect(button[0]).not.toHaveClass(style.dots_item_dark);
+  });
+
+  it(' test disable button if current page  === total pages ', () => {
+    const mockContextValue: ThemeContextType = { isDarkMode: false, toggleTheme: vi.fn() };
+    render(
+      <ThemeContext.Provider value={mockContextValue}>
+        <Pagination
+          totalPage={1}
+          currentPage={1}
+          siblings={1}
+          onChangePage={(page) => {
+            onChangePage(page);
+          }}
+        />
+      </ThemeContext.Provider>,
+    );
+    const button = screen.getByText(/1/i);
+    expect(button).toBeInTheDocument();
+    waitFor(() => {
+      expect(button).toBeDisabled();
+    });
+  });
+
+  it('handle click on pagination button', () => {
+    const TestComponent = () => {
+      const [currentPage, setCurrentPage] = useState(5);
+
+      return (
+        <>
+          <Pagination
+            totalPage={10}
+            currentPage={currentPage}
+            siblings={1}
+            onChangePage={(page) => {
+              onChangePage(page);
+              setCurrentPage(page);
+            }}
+          />
+          <div data-testid="current-page">{currentPage}</div>
+        </>
+      );
+    };
+
+    render(
+      <Provider store={store}>
+        <ThemeProvider>
+          <TestComponent />
+        </ThemeProvider>
+      </Provider>,
+    );
+
+    const six_btn = screen.getByText(/6/i);
+    expect(six_btn).toBeInTheDocument();
+    userEvent.click(six_btn);
+    waitFor(() => {
+      expect(onChangePage).toHaveBeenCalledWith(6);
+      expect(screen.getByTestId('current-page').textContent).toBe('6');
+
+      const activeBtn = screen.getByRole('button', { name: /6/i });
       expect(activeBtn).toHaveClass(/active/i);
     });
   });

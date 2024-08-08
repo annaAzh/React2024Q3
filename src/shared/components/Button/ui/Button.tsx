@@ -1,6 +1,6 @@
-import { ThemeContext } from 'app/store/Themecontext';
-import { FC, ReactNode, useContext } from 'react';
+import { FC, ReactNode } from 'react';
 import style from './Button.module.scss';
+import { useTheme } from 'app/providers/themeProvider/hook';
 
 interface ButtonProps {
   children?: ReactNode;
@@ -8,7 +8,7 @@ interface ButtonProps {
 }
 
 const Button: FC<ButtonProps> = ({ children, onClick }) => {
-  const { isDarkMode } = useContext(ThemeContext);
+  const { isDarkMode } = useTheme();
 
   return (
     <button className={isDarkMode ? `${style.button} ${style.button_dark}` : style.button} onClick={onClick}>

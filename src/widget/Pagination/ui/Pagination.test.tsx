@@ -1,17 +1,31 @@
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter, Route, Routes, useSearchParams } from 'react-router-dom';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { Pagination } from './Pagination';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { store } from 'shared/lib/__mock__';
+import { ThemeContext, ThemeContextType, ThemeProvider } from 'app/providers/themeProvider/Themecontext';
+import { useState } from 'react';
+import style from './Pagination.module.scss';
+
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    query: {},
+  }),
+}));
 
 const onChangePage = vi.fn();
 
 describe('Pagination Component', () => {
   it('render pagination component', () => {
     render(
-      <MemoryRouter>
-        <Pagination totalPage={10} currentPage={1} siblings={1} onChangePage={onChangePage} />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <ThemeProvider>
+          <Pagination totalPage={10} currentPage={1} siblings={1} onChangePage={onChangePage} />
+        </ThemeProvider>
+      </Provider>,
     );
 
     const paginationItems = screen.getAllByRole('button');
@@ -20,8 +34,7 @@ describe('Pagination Component', () => {
 
   it('updates URL query parameter when page changes', async () => {
     const TestComponent = () => {
-      const [searchParams, setSearchParams] = useSearchParams();
-      const currentPage = Number(searchParams.get('page') ?? 1);
+      const [currentPage, setCurrentPage] = useState(1);
 
       return (
         <>
@@ -30,8 +43,8 @@ describe('Pagination Component', () => {
             currentPage={currentPage}
             siblings={1}
             onChangePage={(page) => {
-              setSearchParams({ page: page.toString() });
               onChangePage(page);
+              setCurrentPage(page);
             }}
           />
           <div data-testid="current-page">{currentPage}</div>
@@ -40,11 +53,11 @@ describe('Pagination Component', () => {
     };
 
     render(
-      <MemoryRouter initialEntries={['/?page=1']}>
-        <Routes>
-          <Route path="/" element={<TestComponent />} />
-        </Routes>
-      </MemoryRouter>,
+      <Provider store={store}>
+        <ThemeProvider>
+          <TestComponent />
+        </ThemeProvider>
+      </Provider>,
     );
 
     expect(screen.getByTestId('current-page').textContent).toBe('1');
@@ -63,5 +76,125 @@ describe('Pagination Component', () => {
     await userEvent.click(previousPageButtons[0]);
     expect(screen.getByTestId('current-page').textContent).toBe('1');
     expect(onChangePage).toHaveBeenCalledWith(1);
+  });
+
+  it('handle prev click button', () => {
+    const TestComponent = () => {
+      const [currentPage, setCurrentPage] = useState(5);
+
+      return (
+        <>
+          <Pagination
+            totalPage={10}
+            currentPage={currentPage}
+            siblings={1}
+            onChangePage={(page) => {
+              onChangePage(page);
+              setCurrentPage(page);
+            }}
+          />
+          <div data-testid="current-page">{currentPage}</div>
+        </>
+      );
+    };
+
+    render(
+      <Provider store={store}>
+        <ThemeProvider>
+          <TestComponent />
+        </ThemeProvider>
+      </Provider>,
+    );
+
+    const prevArrow = screen.getByTestId(/prevArrow/i);
+    expect(prevArrow).toBeInTheDocument();
+    userEvent.click(prevArrow);
+    waitFor(() => {
+      expect(onChangePage).toHaveBeenCalledWith(4);
+      expect(screen.getByTestId('current-page').textContent).toBe('4');
+
+      const activeBtn = screen.getByRole('button', { name: /4/i });
+      expect(activeBtn).toHaveClass(/active/i);
+    });
+  });
+
+  it('renders dots component with light mode styles when isDarkMode is false', () => {
+    const mockContextValue: ThemeContextType = { isDarkMode: false, toggleTheme: vi.fn() };
+    render(
+      <ThemeContext.Provider value={mockContextValue}>
+        <Pagination
+          totalPage={10}
+          currentPage={6}
+          siblings={1}
+          onChangePage={(page) => {
+            onChangePage(page);
+          }}
+        />
+      </ThemeContext.Provider>,
+    );
+    const button = screen.getAllByText('...');
+    expect(button[0]).toBeInTheDocument();
+    expect(button[0]).not.toHaveClass(style.dots_item_dark);
+  });
+
+  it(' test disable button if current page  === total pages ', () => {
+    const mockContextValue: ThemeContextType = { isDarkMode: false, toggleTheme: vi.fn() };
+    render(
+      <ThemeContext.Provider value={mockContextValue}>
+        <Pagination
+          totalPage={1}
+          currentPage={1}
+          siblings={1}
+          onChangePage={(page) => {
+            onChangePage(page);
+          }}
+        />
+      </ThemeContext.Provider>,
+    );
+    const button = screen.getByText(/1/i);
+    expect(button).toBeInTheDocument();
+    waitFor(() => {
+      expect(button).toBeDisabled();
+    });
+  });
+
+  it('handle click on pagination button', () => {
+    const TestComponent = () => {
+      const [currentPage, setCurrentPage] = useState(5);
+
+      return (
+        <>
+          <Pagination
+            totalPage={10}
+            currentPage={currentPage}
+            siblings={1}
+            onChangePage={(page) => {
+              onChangePage(page);
+              setCurrentPage(page);
+            }}
+          />
+          <div data-testid="current-page">{currentPage}</div>
+        </>
+      );
+    };
+
+    render(
+      <Provider store={store}>
+        <ThemeProvider>
+          <TestComponent />
+        </ThemeProvider>
+      </Provider>,
+    );
+
+    const six_btn = screen.getByText(/6/i);
+    expect(six_btn).toBeInTheDocument();
+    userEvent.click(six_btn);
+    waitFor(() => {
+      expect(onChangePage).toHaveBeenCalledWith(6);
+      expect(screen.getByTestId('current-page').textContent).toBe('6');
+
+      const activeBtn = screen.getByRole('button', { name: /6/i });
+      expect(activeBtn).toHaveClass(/active/i);
+    });
   });
 });

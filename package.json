@@ -8,8 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css}\"",
-    "format:fix": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "format:check": "prettier --check \"app/src/**/*.{ts,tsx,json,css}\"",
+    "format:fix": "prettier --write \"app/src/**/*.{ts,tsx,css}\"",
     "prepare": "husky",
     "test": "vitest --run",
     "coverage": "vitest run --coverage"

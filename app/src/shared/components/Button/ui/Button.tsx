@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 import style from './Button.module.scss';
-import { useTheme } from 'app/providers/themeProvider/hook';
+import { useTheme } from '@/app/src/_app/providers/themeProvider/hook';
 
 interface ButtonProps {
   children?: ReactNode;

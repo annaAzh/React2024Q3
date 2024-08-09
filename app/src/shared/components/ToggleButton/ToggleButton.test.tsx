@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { ToggleButton } from './ToggleButton';
 import style from './ToggleButton.module.scss';
 import userEvent from '@testing-library/user-event';
-import { ThemeContext, ThemeContextType, ThemeProvider } from 'app/providers/themeProvider/Themecontext';
+import { ThemeContext, ThemeContextType, ThemeProvider } from '@/app/src/_app/providers/themeProvider/Themecontext';
 
 describe('ToggleButton component', () => {
   it('renders button with appropriate class based on isDarkMode', () => {

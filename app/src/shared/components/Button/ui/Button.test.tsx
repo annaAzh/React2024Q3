@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { Button } from './Button';
 import style from './Button.module.scss';
 import userEvent from '@testing-library/user-event';
-import { ThemeContext, ThemeContextType } from 'app/providers/themeProvider/Themecontext';
+import { ThemeContext, ThemeContextType } from '@/app/src/_app/providers/themeProvider/Themecontext';
 
 describe('Button component', () => {
   it('renders button with dark mode styles when isDarkMode is true', () => {

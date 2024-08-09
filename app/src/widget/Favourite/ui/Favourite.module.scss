@@ -1,0 +1,45 @@
+.favourite_block {
+  padding: 10px;
+  border: 1px solid var(--bg-color);
+  background-color: var(--border-color);
+  border-radius: 10px;
+  box-shadow: var(--bg-color) 0px 7px 29px 0px;
+  color: var(--bg-color);
+  font-size: 22px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 10px;
+  left: 10%;
+  gap: 20px;
+  z-index: 100;
+
+  @media (max-width: 768px) {
+    left: 0px;
+    flex-wrap: wrap;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 18px;
+    justify-content: center;
+    gap: 5px;
+  }
+}
+
+.favourite_block_dark {
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--border-color) 0px 7px 29px 0px;
+  color: var(--border-color);
+}
+
+
+.btns_wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.info {
+  min-width: 240px;
+}

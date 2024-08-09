@@ -1,6 +1,8 @@
+'use client';
+
 import { FC, ReactNode } from 'react';
 import style from './Layout.module.scss';
-import { useTheme } from 'app/providers/themeProvider/hook';
+import { useTheme } from '@/app/src/_app/providers/themeProvider/hook';
 
 type LayoutProps = {
   children: ReactNode;

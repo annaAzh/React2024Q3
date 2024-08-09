@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { Layout } from './Layout';
 import style from './Layout.module.scss';
-import { ThemeContext, ThemeContextType } from 'app/providers/themeProvider/Themecontext';
+import { ThemeContext, ThemeContextType } from '../../_app/providers/themeProvider/Themecontext';
 
 describe('Layout component', () => {
   it('renders layout with appropriate class based on isDarkMode', () => {

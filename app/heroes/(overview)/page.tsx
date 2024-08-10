@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { Loader } from '@/app/src/shared/components/Loader/Loader';
-import { Search } from '../src/features/search';
-import { ToggleButton } from '../src/shared/components';
+import { Search } from '../../src/features/search';
+import { ToggleButton } from '../../src/shared/components';
 import style from '@/app/ui/styles/pages/SearchPage.module.scss';
 import { Pagination } from '@/app/src/widget/Pagination';
 import { SearchRequest } from '@/app/src/shared/api/searchRequest';
@@ -26,7 +26,7 @@ export default async function Page({
 }) {
   const { search, page, id } = searchParams;
 
-  if (!search && !page && !id) {
+  if (!search && !page) {
     redirect('/heroes?page=1');
   }
 

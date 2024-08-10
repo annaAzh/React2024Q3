@@ -3,8 +3,6 @@
 import { useEffect } from 'react';
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
-  console.log(error);
-  console.log('test');
   useEffect(() => {
     console.error(error);
   }, [error]);

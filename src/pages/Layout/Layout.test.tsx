@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import { ThemeContext } from 'app/store/Themecontext';
-import { describe, expect, it, vi } from 'vitest';
+import { ThemeContext, ThemeContextType } from 'app/providers/themeProvider/Themecontext';
+import { describe, it, vi } from 'vitest';
 import { Layout } from './Layout';
 import style from './Layout.module.scss';
 
 describe('Layout component', () => {
   it('renders layout with appropriate class based on isDarkMode', () => {
-    const mockContextValue = { isDarkMode: true, setIsDarkMode: vi.fn() };
+    const mockContextValue = { isDarkMode: true, toggleTheme: vi.fn() };
     render(
       <ThemeContext.Provider value={mockContextValue}>
         <Layout />
@@ -20,7 +20,7 @@ describe('Layout component', () => {
   });
 
   it('renders layout with appropriate class based on not isDarkMode', () => {
-    const mockContextValue = { isDarkMode: false, setIsDarkMode: vi.fn() };
+    const mockContextValue: ThemeContextType = { isDarkMode: false, toggleTheme: vi.fn() };
     render(
       <ThemeContext.Provider value={mockContextValue}>
         <Layout />

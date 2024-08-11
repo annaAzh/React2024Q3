@@ -30,6 +30,7 @@ const Pagination: FC<PaginationProps> = (props) => {
   return (
     <div className={style.block}>
       <button
+        data-testid="prevArrow"
         className={isDarkMode ? `${style.arrow_left} ${style.arrow_left_dark}` : style.arrow_left}
         disabled={currentPage === 1}
         onClick={() => onChangePage(currentPage > 1 ? currentPage - 1 : currentPage)}

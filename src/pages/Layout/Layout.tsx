@@ -1,10 +1,10 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import style from './Layout.module.scss';
-import { Outlet } from 'react-router-dom';
-import { ThemeContext } from 'app/store/Themecontext';
+import { Outlet } from '@remix-run/react';
+import { useTheme } from 'app/providers/themeProvider/hook';
 
 const Layout: FC = () => {
-  const { isDarkMode } = useContext(ThemeContext);
+  const { isDarkMode } = useTheme();
 
   return (
     <div data-testid="layout" className={isDarkMode ? `${style.page} ${style.page_dark}` : style.page}>

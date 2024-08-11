@@ -5,7 +5,6 @@ import { getPaginationArray } from 'shared/utils/helpers';
 import { Paths } from 'shared/types';
 import { useNavigate } from '@remix-run/react';
 import { useTheme } from 'app/providers/themeProvider/hook';
-// import { useNavigate } from 'react-router-dom';
 
 type PaginationProps = {
   totalPage: number;

@@ -10,4 +10,4 @@ const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
   return <Provider store={store}>{children}</Provider>;
 };
 
-export { StoreProvider };
+export default StoreProvider;

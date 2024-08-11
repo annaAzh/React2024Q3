@@ -1,21 +1,32 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import style from './Pagination.module.scss';
 import arrow from 'assets/icons/arrow-left.svg';
 import { getPaginationArray } from 'shared/utils/helpers';
-import { ThemeContext } from 'app/store/Themecontext';
+import { Paths } from 'shared/types';
+import { useNavigate } from '@remix-run/react';
+import { useTheme } from 'app/providers/themeProvider/hook';
+// import { useNavigate } from 'react-router-dom';
 
 type PaginationProps = {
   totalPage: number;
   currentPage: number;
   siblings: number;
-  onChangePage: (page: number) => void;
+  searchValue?: string;
 };
 
 const Pagination: FC<PaginationProps> = (props) => {
-  const { currentPage, totalPage, siblings, onChangePage } = props;
-  const { isDarkMode } = useContext(ThemeContext);
+  const { currentPage, totalPage, siblings, searchValue } = props;
+  const { isDarkMode } = useTheme();
+  const navigate = useNavigate();
 
   const arr = getPaginationArray(totalPage, currentPage, siblings);
+
+  const onChangePage = (el?: number | string) => {
+    const page = el || currentPage;
+
+    const query = new URLSearchParams({ search: searchValue || '', page: page.toString() }).toString();
+    navigate(`${Paths.hero}?${query}`);
+  };
 
   return (
     <div className={style.block}>
@@ -45,7 +56,7 @@ const Pagination: FC<PaginationProps> = (props) => {
           }
           onClick={() => {
             if (typeof el === 'number') {
-              props.onChangePage(el);
+              onChangePage(el);
             }
           }}
         >

@@ -10,9 +10,10 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/setupTests.ts',
+    setupFiles: './app/src/setupTests.ts',
     coverage: {
       provider: 'v8',
+      include: ['**/app/**'],
     },
   },
 });

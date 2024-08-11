@@ -1,28 +1,24 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import { HeroResponse, Paths } from 'shared/types';
+import { Paths } from 'shared/types';
 import style from './Hero.module.scss';
-import { FC, useContext, useEffect, useState } from 'react';
-import { ThemeContext } from 'app/store/Themecontext';
-import { useGetHeroQuery } from 'shared/api';
+import { FC } from 'react';
+import HeroCard from './HeroCard';
+import { useTheme } from 'app/providers/themeProvider/hook';
+import { useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
+import { loader } from 'app/routes/heroes.$id';
 
 const Hero: FC = () => {
-  const { isDarkMode } = useContext(ThemeContext);
+  const { data: hero } = useLoaderData<typeof loader>() || {};
+
+  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
-  const locationPath = useLocation();
-  const parse = locationPath.pathname.split('/');
-  const id = parse[parse.length - 1];
+  const [searchParams] = useSearchParams();
 
-  const [hero, setHero] = useState<HeroResponse>();
-  const { data, isLoading } = useGetHeroQuery(id);
-
-  useEffect(() => {
-    if (data) {
-      setHero(data);
-    }
-  }, [locationPath, data]);
+  const search = searchParams.get('search') || '';
+  const page = searchParams.get('page') || '1';
 
   const handleCloseClick = () => {
-    navigate(Paths.base + locationPath.search);
+    const query = new URLSearchParams({ search, page }).toString();
+    navigate(`/${Paths.hero}?${query}`);
   };
 
   if (!hero) {
@@ -31,13 +27,10 @@ const Hero: FC = () => {
         <button className={style.close_btn} onClick={handleCloseClick}>
           &times;
         </button>
-        {isLoading && <div>Loading...</div>}
+        <div>Hero not found</div>
       </div>
     );
   }
-
-  const { gender, species, status, location } = hero;
-  const { name: locationName } = location;
 
   return (
     <>
@@ -45,34 +38,7 @@ const Hero: FC = () => {
         <button data-testid="close" className={style.close_btn} onClick={handleCloseClick}>
           &times;
         </button>
-        {hero && (
-          <>
-            <div>
-              <img src={hero?.image} className={style.hero_img} alt={hero?.name} />
-            </div>
-            <h3 className={style.hero_desc}>{hero?.name}</h3>
-            {locationName && (
-              <p className={style.hero_info}>
-                <b>Location:</b> {locationName}
-              </p>
-            )}
-            {gender && (
-              <p className={style.hero_info}>
-                <b>Gender:</b> {gender}
-              </p>
-            )}
-            {species && (
-              <p className={style.hero_info}>
-                <b>Species:</b> {species}
-              </p>
-            )}
-            {status && (
-              <p className={style.hero_info}>
-                <b>Status:</b> {status}
-              </p>
-            )}
-          </>
-        )}
+        <HeroCard hero={hero} />
       </div>
     </>
   );

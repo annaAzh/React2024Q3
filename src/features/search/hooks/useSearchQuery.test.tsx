@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from 'vitest';
+import { beforeAll, describe } from 'vitest';
 import { useSearchQuery } from './useSearchQuery';
 import { getLocaleStorage, setLocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
 import { renderHook, waitFor } from '@testing-library/react';

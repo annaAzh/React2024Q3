@@ -1,16 +1,16 @@
-import { FC, useContext } from 'react';
-import { ThemeContext } from 'app/store/Themecontext';
+import { FC } from 'react';
 import { Button } from 'shared/components/Button';
 import { useAppDispatch } from 'shared/hooks/useAppDispatch/useAppDispatch';
 import { generateCSV } from 'shared/utils/helpers';
 import { useSelector } from 'react-redux';
 import { clearFavourite, getFavourites } from 'features/controlFavoriteMovies';
+import { useTheme } from 'app/providers/themeProvider/hook';
 import style from './Favourite.module.scss';
 
 interface FavouriteProps {}
 
 const Favourite: FC<FavouriteProps> = () => {
-  const { isDarkMode } = useContext(ThemeContext);
+  const { isDarkMode } = useTheme();
   const dispatch = useAppDispatch();
   const favourites = useSelector(getFavourites);
   const { heroes } = favourites;
@@ -18,6 +18,10 @@ const Favourite: FC<FavouriteProps> = () => {
   const handleUnselectFavourite = () => {
     dispatch(clearFavourite());
   };
+
+  if (!heroes.length) {
+    return null;
+  }
 
   const handleDownloadFavourites = () => {
     const csvContent = generateCSV(heroes);

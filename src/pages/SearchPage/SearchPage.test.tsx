@@ -1,43 +1,48 @@
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it, afterAll, beforeAll } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
-import { SearchPage } from './SearchPage';
+import { expect, it } from 'vitest';
+import { createRemixStub } from '@remix-run/testing';
+import { render } from '@testing-library/react';
+import { ThemeProvider } from 'app/providers/themeProvider/Themecontext';
+import MainPage, { loader } from 'app/routes/heroes';
+import { json } from '@remix-run/node';
+import { heroes, store } from 'shared/lib/__mock__';
+import { SearchResponse } from 'shared/types';
 import { Provider } from 'react-redux';
-import { http, HttpResponse } from 'msw';
-import { setupServer } from 'msw/node';
-import { store } from 'shared/lib/__mock__';
 
-const mockResult = { info: { pages: 1 }, results: [] };
+const mockResult: SearchResponse = {
+  info: {
+    count: 2,
+    pages: 1,
+    next: null,
+    prev: null,
+  },
+  results: heroes,
+};
 
-export const BASE_URL: string = 'https://rickandmortyapi.com/api/character';
+it('testing Details server component', async () => {
+  const search = '';
+  const page = 1;
 
-const handlers = [
-  http.get(`${BASE_URL}`, async () => {
-    return HttpResponse.json(mockResult);
-  }),
-];
+  const MockMainPage = createRemixStub([
+    {
+      path: `/`,
+      Component: MainPage,
+      loader(): Awaited<ReturnType<typeof loader>> {
+        return json({ data: mockResult, search, page });
+      },
+    },
+  ]);
 
-const server = setupServer(...handlers);
+  const { findByText } = render(
+    <Provider store={store}>
+      <ThemeProvider>
+        <MockMainPage />
+      </ThemeProvider>
+    </Provider>,
+  );
 
-describe('', () => {
-  beforeAll(() => {
-    server.listen();
-  });
+  const hero_one = await findByText(/Rick/i);
+  expect(hero_one).toBeInTheDocument();
 
-  afterAll(() => {
-    server.close();
-  });
-
-  it('testing test', async () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <SearchPage />
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    const noResultsMessage = await screen.findByText(/No results found/i);
-    expect(noResultsMessage).toBeInTheDocument();
-  });
+  const hero_second = await findByText(/Morty/i);
+  expect(hero_second).toBeInTheDocument();
 });

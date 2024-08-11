@@ -1,5 +1,4 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { ThemeContext } from 'app/store/Themecontext';
 import { Provider } from 'react-redux';
 import { describe, expect, it, vi } from 'vitest';
 import { Favourite } from './Favourite';
@@ -7,10 +6,11 @@ import userEvent from '@testing-library/user-event';
 import { List } from 'widget/List';
 import { BrowserRouter } from 'react-router-dom';
 import style from './Favourite.module.scss';
+import { ThemeContext } from 'app/providers/themeProvider/Themecontext';
 import { heroes, store } from 'shared/lib/__mock__';
 
 global.URL.createObjectURL = vi.fn(() => 'fake-url');
-const mockContextValue = { isDarkMode: false, setIsDarkMode: vi.fn() };
+const mockContextValue = { isDarkMode: false, toggleTheme: vi.fn() };
 
 describe('Favourite component', () => {
   it('renders Favourite component', async () => {

@@ -50,3 +50,6 @@ export const heroes = [
     created: '2021-01-01T00:00:00.000Z',
   },
 ];
+
+export const BASE_URL: string = 'https://rickandmortyapi.com/api/character';
+export const BASE_URL_HERO: string = 'https://rickandmortyapi.com/api/character/1';

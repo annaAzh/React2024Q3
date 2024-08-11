@@ -53,7 +53,7 @@ export default async function Page({
         <Suspense fallback={<Loader />}>
           <>
             <div className={style.controls_block}>
-              <Search />
+              <Search initialValue={searchValue} />
               <ToggleButton />
             </div>
 

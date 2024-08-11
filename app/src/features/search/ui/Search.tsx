@@ -1,8 +1,8 @@
 'use client';
 
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { useTheme } from '@/app/src/_app/providers/themeProvider/hook';
-import { setLocaleStorage } from '@/app/src/shared/utils/localeStorage/LocaleStorage';
+import { getLocaleStorage, setLocaleStorage } from '@/app/src/shared/utils/localeStorage/LocaleStorage';
 import style from './Search.module.scss';
 import { useRouter } from 'next/navigation';
 import { Paths } from '@/app/src/shared/types';
@@ -11,13 +11,18 @@ interface SearchProps {
   initialValue?: string | null;
 }
 
-const Search: FC<SearchProps> = () => {
+const Search: FC<SearchProps> = ({ initialValue }) => {
   const { isDarkMode } = useTheme();
 
   const router = useRouter();
 
   const [searchValue, setSearchValue] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const value = initialValue || getLocaleStorage() || '';
+    if (value) setSearchValue(value);
+  }, []);
 
   const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();

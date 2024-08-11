@@ -1,9 +1,9 @@
 import { Links, Meta, redirect, Scripts, ScrollRestoration } from '@remix-run/react';
-import { ThemeProvider } from './providers/themeProvider/Themecontext';
 import { Layout } from 'pages';
 import type { LoaderFunction } from '@remix-run/node';
-import StoreProvider from './providers/storeProvider/ui/storeProvider';
 import './styles/global.scss';
+import { ThemeProvider } from './providers/themeProvider/Themecontext';
+import StoreProvider from './providers/storeProvider/ui/storeProvider';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
@@ -35,7 +35,6 @@ export default function Root() {
             </ThemeProvider>
           </StoreProvider>
         </div>
-
         <ScrollRestoration />
         <Scripts />
       </body>

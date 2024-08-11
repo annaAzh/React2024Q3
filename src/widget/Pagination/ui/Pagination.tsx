@@ -2,7 +2,6 @@ import { FC } from 'react';
 import style from './Pagination.module.scss';
 import arrow from 'assets/icons/arrow-left.svg';
 import { getPaginationArray } from 'shared/utils/helpers';
-import { Paths } from 'shared/types';
 import { useNavigate } from '@remix-run/react';
 import { useTheme } from 'app/providers/themeProvider/hook';
 
@@ -24,7 +23,7 @@ const Pagination: FC<PaginationProps> = (props) => {
     const page = el || currentPage;
 
     const query = new URLSearchParams({ search: searchValue || '', page: page.toString() }).toString();
-    navigate(`${Paths.hero}?${query}`);
+    navigate(`?${query}`);
   };
 
   return (

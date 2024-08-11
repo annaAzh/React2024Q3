@@ -7,8 +7,8 @@ import { Search } from 'features/search';
 import { List } from 'widget/List';
 import { Favourite } from 'widget/Favourite';
 import style from 'pages/SearchPage/SearchPage.module.css';
-import { Loader } from 'shared/components/Loader/Loader';
 import { json } from '@remix-run/node';
+import { Loader } from 'shared/components/Loader/Loader';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
@@ -20,13 +20,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function MainPage() {
   const { data, search, page } = useLoaderData<typeof loader>();
+  const heroes = data?.results || [];
   const navigation = useNavigation();
-  const heroes = data?.results ? data?.results : [];
 
   return (
     <>
       <div className={style.controls_block}>
-        <Search initialValue={search} />
+        <Search />
         <ToggleButton />
       </div>
 

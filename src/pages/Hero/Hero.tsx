@@ -3,13 +3,11 @@ import style from './Hero.module.scss';
 import { FC } from 'react';
 import HeroCard from './HeroCard';
 import { useTheme } from 'app/providers/themeProvider/hook';
-import { useLoaderData, useNavigate, useNavigation, useSearchParams } from '@remix-run/react';
+import { useLoaderData, useNavigate, useSearchParams } from '@remix-run/react';
 import { loader } from 'app/routes/heroes.$id';
-import { Loader } from 'shared/components/Loader/Loader';
 
 const Hero: FC = () => {
   const { data: hero } = useLoaderData<typeof loader>() || {};
-  const navigation = useNavigation();
 
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
@@ -30,14 +28,6 @@ const Hero: FC = () => {
           &times;
         </button>
         <div>Hero not found</div>
-      </div>
-    );
-  }
-
-  if (navigation.state === 'loading') {
-    return (
-      <div className={isDarkMode ? `${style.wrapper} ${style.wrapper_dark}` : style.wrapper}>
-        <Loader />
       </div>
     );
   }

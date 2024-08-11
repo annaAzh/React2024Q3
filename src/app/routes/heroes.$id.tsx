@@ -13,6 +13,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json({ data });
 };
 
-export default function Index() {
+export default function HeroPage() {
   return <Hero />;
 }

@@ -1,5 +1,5 @@
 import { ToggleButton } from 'shared/components';
-import { json, Outlet, useLoaderData, useNavigation } from '@remix-run/react';
+import { Outlet, useLoaderData, useNavigation } from '@remix-run/react';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { SearchRequest } from 'shared/api/searchRequest';
 import { Pagination } from 'widget/Pagination';
@@ -8,6 +8,7 @@ import { List } from 'widget/List';
 import { Favourite } from 'widget/Favourite';
 import style from 'pages/SearchPage/SearchPage.module.css';
 import { Loader } from 'shared/components/Loader/Loader';
+import { json } from '@remix-run/node';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
@@ -17,7 +18,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ data, search, page });
 };
 
-export default function Index() {
+export default function MainPage() {
   const { data, search, page } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
   const heroes = data?.results ? data?.results : [];

@@ -7,9 +7,10 @@ import { vitePlugin as remix } from '@remix-run/dev';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    remix({
-      appDirectory: 'src/app',
-    }),
+    !process.env.VITEST &&
+      remix({
+        appDirectory: 'src/app',
+      }),
     tsconfigPaths(),
   ],
   test: {

@@ -1,31 +1,25 @@
-import { FC, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import style from './Search.module.scss';
-import { ThemeContext } from 'app/store/Themecontext';
+
+import { getLocaleStorage, setLocaleStorage } from 'shared/utils/localeStorage/LocaleStorage';
+import { Paths } from 'shared/types';
+import { useNavigate } from '@remix-run/react';
+import { useTheme } from 'app/providers/themeProvider/hook';
 
 interface SearchProps {
-  onSubmitSearch: (value: string) => void;
-  onResetSearch: () => void;
-  initialValue: string | null;
+  initialValue?: string | null;
 }
 
-const Search: FC<SearchProps> = (props) => {
-  const { isDarkMode } = useContext(ThemeContext);
+const Search: FC<SearchProps> = () => {
+  const { isDarkMode } = useTheme();
   const [searchValue, setSearchValue] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const setInitialState = useCallback(() => {
-    const { initialValue } = props;
-
-    if (initialValue) {
-      setSearchValue(initialValue);
-    } else {
-      setSearchValue('');
-    }
-  }, [props]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setInitialState();
-  }, [setInitialState]);
+    const storedValue = getLocaleStorage() || '';
+    if (storedValue) setSearchValue(storedValue);
+  }, []);
 
   const handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
@@ -34,14 +28,19 @@ const Search: FC<SearchProps> = (props) => {
 
   const handleSubmitSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    props.onSubmitSearch(searchValue);
+    setLocaleStorage(searchValue);
+    const query = new URLSearchParams({ search: searchValue, page: '1' }).toString();
+
+    navigate(`/heroes?${query}`);
   };
 
   const handleResetForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchValue('');
+    setLocaleStorage('');
     inputRef.current?.focus();
-    props.onResetSearch();
+    const query = new URLSearchParams({ search: '', page: '1' }).toString();
+    navigate(`/${Paths.hero}?${query}`);
   };
 
   return (

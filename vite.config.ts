@@ -7,20 +7,11 @@ import reactVitest from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // plugins: [
-  //   !process.env.VITEST &&
-  //     remix({
-  //       appDirectory: 'src/app',
-  //     }),
-
-  //   tsconfigPaths(),
-
-  // ],
   plugins: [tsconfigPaths(), process.env.VITEST ? reactVitest() : remix({ appDirectory: 'src/app' })],
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/setupTests.ts',
+    setupFiles: './setupTests.ts',
     coverage: {
       provider: 'v8',
       include: ['**/src/**'],

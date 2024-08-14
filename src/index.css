@@ -10,19 +10,41 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 a {
   text-decoration: inherit;
+  font-size: 24px;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+
+a:hover {
+  color: rgb(212, 236, 80);
+}
+
+a + a {
+  margin-left: 20px;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  width: 100%;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }

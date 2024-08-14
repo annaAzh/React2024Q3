@@ -16,14 +16,23 @@
 
 a {
   text-decoration: inherit;
-  font-size: 24px;
+  font-size: 18px;
+  margin-bottom: 10px;
   color: inherit;
   cursor: pointer;
   transition: all 0.3s ease-in;
+  display: inline-block;
+  text-align: left;
+  width: fit-content;
+  border: 1px solid rgb(212, 236, 80);
+  padding: 6px 10px;
+  border-radius: 8px;
 }
 
 a:hover {
-  color: rgb(212, 236, 80);
+  background-color: #ececec;
+  border: 1px solid #ececec;
+  color: rgb(62, 62, 61);
 }
 
 a + a {
@@ -38,8 +47,9 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2em;
   line-height: 1.1;
+  margin: 20px 0;
 }
 
 #root {

@@ -1,0 +1,28 @@
+.wrapper {
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+}
+
+.wrapper.active {
+  box-shadow: 0 0 12px rgb(212, 236, 80);
+}
+
+.item_wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+  row-gap: 10px;
+}
+
+.span {
+  font-weight: 700;
+  width: 100px;
+  text-align: left;
+}
+
+.image {
+  max-width: 200px;
+  height: auto;
+}

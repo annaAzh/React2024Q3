@@ -1,0 +1,20 @@
+.title {
+  margin: 40px 0;
+}
+
+.subtitle {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.forms_wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.forms {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

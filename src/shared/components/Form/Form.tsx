@@ -2,22 +2,20 @@ import { FC } from 'react';
 import style from './Form.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { countryList } from 'shared/types/countries';
 import { schema } from 'shared/lib/validation/validationSchema';
-
-interface FormInputs {
-  name: string;
-  age: number;
-  email: string;
-  password: string;
-  confirm: string;
-  gender: 'male' | 'female';
-  terms: boolean;
-  file: FileList;
-  country: string;
-}
+import { FormInputs } from 'shared/types/formData';
+import { useAppDispatch } from 'app/redux/hooks/useAppDispatch';
+import { addFControllForm } from 'app/redux/slices/controllFormSlice';
+import { useAppSelector } from 'app/redux/hooks/useAppSelector';
+import { getCountries } from 'app/redux/selectors/countriesSelectors';
+import { useNavigate } from 'react-router-dom';
+import { Path } from 'shared/types/routePaths';
 
 export const Form: FC = () => {
+  const dispatch = useAppDispatch();
+  const { countries } = useAppSelector(getCountries);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -26,8 +24,9 @@ export const Form: FC = () => {
   } = useForm<FormInputs>({ resolver: yupResolver(schema), mode: 'all' });
 
   const onSubmitHandler = (data: FormInputs) => {
-    console.log(data);
+    dispatch(addFControllForm(data));
     reset();
+    navigate(`${Path.main}`);
   };
 
   return (
@@ -81,7 +80,7 @@ export const Form: FC = () => {
       <p className={style.errors}>{errors.country?.message}</p>
 
       <datalist className={style.input} id="countries-list">
-        {countryList.map((country) => {
+        {countries.map((country) => {
           return <option key={country}>{country}</option>;
         })}
       </datalist>

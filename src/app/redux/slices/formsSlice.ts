@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FormInputs } from 'shared/types/formData';
+import { FormInputs } from 'shared/types/formTypes';
 
 export const enum Identificator {
   controlled = 'controlled',

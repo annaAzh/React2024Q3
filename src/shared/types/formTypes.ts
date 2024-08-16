@@ -9,3 +9,7 @@ export interface FormInputs {
   file: FileList;
   country: string;
 }
+
+export interface Errors {
+  [key: string]: string | undefined;
+}

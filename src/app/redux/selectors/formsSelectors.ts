@@ -1,4 +1,4 @@
-import { FormInputs } from 'shared/types/formData';
+import { FormInputs } from 'shared/types/formTypes';
 import { RootState } from '../config/store';
 import { Identificator } from '../slices/formsSlice';
 

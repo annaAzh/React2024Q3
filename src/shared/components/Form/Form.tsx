@@ -3,7 +3,7 @@ import style from './Form.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from 'shared/lib/validation/validationSchema';
-import { FormInputs } from 'shared/types/formData';
+import { FormInputs } from 'shared/types/formTypes';
 import { useAppDispatch } from 'app/redux/hooks/useAppDispatch';
 import { addFControllForm } from 'app/redux/slices/formsSlice';
 import { useAppSelector } from 'app/redux/hooks/useAppSelector';

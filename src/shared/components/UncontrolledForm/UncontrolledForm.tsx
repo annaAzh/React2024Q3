@@ -9,6 +9,7 @@ import { getCountries } from 'app/redux/selectors/countriesSelectors';
 import style from './UncontrolledForm.module.css';
 import { addFUnControllForm } from 'app/redux/slices/formsSlice';
 import { Errors, FormInputs } from 'shared/types/formTypes';
+import { imageToBase64 } from 'shared/lib/utils/helpers';
 
 export const UncontrolledForm: FC = () => {
   const dispatch = useAppDispatch();
@@ -45,7 +46,9 @@ export const UncontrolledForm: FC = () => {
     try {
       await schema.validate(formData, { abortEarly: false });
       setErrors({});
-      dispatch(addFUnControllForm(formData));
+      const imageBase64 = await imageToBase64(formData.file[0]);
+      const convertedData = { ...formData, file: imageBase64 };
+      dispatch(addFUnControllForm(convertedData));
       navigate(`${Path.main}`);
     } catch (validationErrors) {
       if (validationErrors instanceof yup.ValidationError) {

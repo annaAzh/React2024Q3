@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FormInputs } from 'shared/types/formTypes';
+import { ConvertedFormInputs } from 'shared/types/formTypes';
 
 export const enum Identificator {
   controlled = 'controlled',
@@ -7,8 +7,8 @@ export const enum Identificator {
 }
 
 export interface formsSchema {
-  controllForm: FormInputs[];
-  unControlledForm: FormInputs[];
+  controllForm: ConvertedFormInputs[];
+  unControlledForm: ConvertedFormInputs[];
   lastFormId: Identificator.controlled | Identificator.uncontrolled | null;
 }
 
@@ -22,11 +22,11 @@ export const formsSlice = createSlice({
   name: 'forms',
   initialState,
   reducers: {
-    addFControllForm(state: formsSchema, action: PayloadAction<FormInputs>) {
+    addFControllForm(state: formsSchema, action: PayloadAction<ConvertedFormInputs>) {
       state.controllForm = [...state.controllForm, action.payload];
       state.lastFormId = Identificator.controlled;
     },
-    addFUnControllForm(state: formsSchema, action: PayloadAction<FormInputs>) {
+    addFUnControllForm(state: formsSchema, action: PayloadAction<ConvertedFormInputs>) {
       state.unControlledForm = [...state.unControlledForm, action.payload];
       state.lastFormId = Identificator.uncontrolled;
     },

@@ -10,6 +10,7 @@ import { useAppSelector } from 'app/redux/hooks/useAppSelector';
 import { getCountries } from 'app/redux/selectors/countriesSelectors';
 import { useNavigate } from 'react-router-dom';
 import { Path } from 'shared/types/routePaths';
+import { imageToBase64 } from 'shared/lib/utils/helpers';
 
 export const Form: FC = () => {
   const dispatch = useAppDispatch();
@@ -23,8 +24,11 @@ export const Form: FC = () => {
     reset,
   } = useForm<FormInputs>({ resolver: yupResolver(schema), mode: 'all' });
 
-  const onSubmitHandler = (data: FormInputs) => {
-    dispatch(addFControllForm(data));
+  const onSubmitHandler = async (data: FormInputs) => {
+    const imageBase64 = await imageToBase64(data.file[0]);
+    const convertedData = { ...data, file: imageBase64 };
+
+    dispatch(addFControllForm(convertedData));
     reset();
     navigate(`${Path.main}`);
   };

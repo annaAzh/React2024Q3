@@ -10,6 +10,18 @@ export interface FormInputs {
   country: string;
 }
 
+export interface ConvertedFormInputs {
+  name: string;
+  age: number;
+  email: string;
+  password: string;
+  confirm: string;
+  gender: 'male' | 'female';
+  terms: boolean;
+  file: string;
+  country: string;
+}
+
 export interface Errors {
   [key: string]: string | undefined;
 }

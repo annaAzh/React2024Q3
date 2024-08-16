@@ -1,18 +1,19 @@
 import { FC } from 'react';
-import { FormInputs } from 'shared/types/formData';
+import { ConvertedFormInputs } from 'shared/types/formTypes';
 import style from './Details.module.css';
 
-interface DetailsProps extends Omit<FormInputs, 'password' | 'confirm' | 'terms'> {
+interface DetailsProps extends Omit<ConvertedFormInputs, 'password' | 'confirm' | 'terms'> {
   active?: boolean;
 }
 
 export const Details: FC<DetailsProps> = (props) => {
-  const { name, email, age, gender, country, active } = props;
+  const { name, email, age, gender, country, active, file } = props;
 
   return (
     <div className={active ? `${style.wrapper} ${style.active}` : `${style.wrapper}`}>
       <div className={style.item_wrapper}>
         <span className={style.span}>Image:</span>
+        <img className={style.image} src={file} />
       </div>
 
       <div className={style.item_wrapper}>

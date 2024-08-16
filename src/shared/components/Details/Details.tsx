@@ -2,10 +2,15 @@ import { FC } from 'react';
 import { FormInputs } from 'shared/types/formData';
 import style from './Details.module.css';
 
-export const Details: FC<Omit<FormInputs, 'password' | 'confirm' | 'terms'>> = (props) => {
-  const { name, email, age, gender, country } = props;
+interface DetailsProps extends Omit<FormInputs, 'password' | 'confirm' | 'terms'> {
+  active?: boolean;
+}
+
+export const Details: FC<DetailsProps> = (props) => {
+  const { name, email, age, gender, country, active } = props;
+
   return (
-    <div className={`${style.wrapper} ${style.active}`}>
+    <div className={active ? `${style.wrapper} ${style.active}` : `${style.wrapper}`}>
       <div className={style.item_wrapper}>
         <span className={style.span}>Image:</span>
       </div>

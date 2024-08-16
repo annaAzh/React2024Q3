@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from 'shared/lib/validation/validationSchema';
 import { FormInputs } from 'shared/types/formData';
 import { useAppDispatch } from 'app/redux/hooks/useAppDispatch';
-import { addFControllForm } from 'app/redux/slices/controllFormSlice';
+import { addFControllForm } from 'app/redux/slices/formsSlice';
 import { useAppSelector } from 'app/redux/hooks/useAppSelector';
 import { getCountries } from 'app/redux/selectors/countriesSelectors';
 import { useNavigate } from 'react-router-dom';

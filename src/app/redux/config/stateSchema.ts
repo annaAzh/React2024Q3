@@ -1,7 +1,7 @@
-import { controllFormReducer } from '../slices/controllFormSlice';
+import { formsReducer } from '../slices/formsSlice';
 import { countriesReducer } from '../slices/countrySlice';
 
 export interface StateSchema {
-  controllForm: typeof controllFormReducer;
+  forms: typeof formsReducer;
   countries: typeof countriesReducer;
 }

@@ -20,14 +20,14 @@ export const schema = yup.object().shape({
   password: yup
     .string()
     .trim()
-    .required('Password is a required field')
     .matches(
       new RegExp(REG_EXP.special_character),
       'Password must contain at least one special character from !@#$%^&*',
     )
     .matches(new RegExp(REG_EXP.uppercase), 'Password must contain at least one uppercase letter')
     .matches(new RegExp(REG_EXP.lowercase), 'Password must contain at least one lowercase letter')
-    .matches(new RegExp(REG_EXP.numbers), 'Password must contain at least one number'),
+    .matches(new RegExp(REG_EXP.numbers), 'Password must contain at least one number')
+    .required('Password is a required field'),
   confirm: yup
     .string()
     .oneOf([yup.ref('password')], 'Passwords must match')

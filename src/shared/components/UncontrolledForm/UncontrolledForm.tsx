@@ -10,6 +10,7 @@ import style from './UncontrolledForm.module.css';
 import { addFUnControllForm } from 'app/redux/slices/formsSlice';
 import { Errors, FormInputs } from 'shared/types/formTypes';
 import { imageToBase64 } from 'shared/lib/utils/helpers';
+import { PasswordStrength } from '../PasswordStrength/PasswordStrength';
 
 export const UncontrolledForm: FC = () => {
   const dispatch = useAppDispatch();
@@ -27,6 +28,7 @@ export const UncontrolledForm: FC = () => {
   const countryRef = useRef<HTMLInputElement>(null);
 
   const [errors, setErrors] = useState<Errors>({});
+  const [password, setPassord] = useState<string>('');
 
   const onSubmitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -80,8 +82,17 @@ export const UncontrolledForm: FC = () => {
       {errors.email && <p className={style.errors}>{errors.email}</p>}
 
       <label htmlFor="password">Password</label>
-      <input ref={passwordRef} className={style.input} id="password" type="password" autoComplete="true" />
+      <input
+        ref={passwordRef}
+        className={style.input}
+        id="password"
+        type="password"
+        autoComplete="true"
+        onChange={() => setPassord(passwordRef.current?.value || '')}
+      />
       {errors.password && <p className={style.errors}>{errors.password}</p>}
+
+      <PasswordStrength password={password} />
 
       <label htmlFor="confirm-password">Confirm Password</label>
       <input ref={confirmRef} className={style.input} id="confirm-password" type="password" autoComplete="true" />

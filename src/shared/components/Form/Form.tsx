@@ -11,6 +11,7 @@ import { getCountries } from 'app/redux/selectors/countriesSelectors';
 import { useNavigate } from 'react-router-dom';
 import { Path } from 'shared/types/routePaths';
 import { imageToBase64 } from 'shared/lib/utils/helpers';
+import { PasswordStrength } from '../PasswordStrength/PasswordStrength';
 
 export const Form: FC = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ export const Form: FC = () => {
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    watch,
   } = useForm<FormInputs>({ resolver: yupResolver(schema), mode: 'all' });
 
   const onSubmitHandler = async (data: FormInputs) => {
@@ -49,6 +51,9 @@ export const Form: FC = () => {
 
       <label htmlFor="password">Password</label>
       <input {...register('password')} className={style.input} id="password" type="password" autoComplete="true" />
+
+      <PasswordStrength password={watch('password')} />
+
       <p className={style.errors}>{errors.password?.message}</p>
 
       <label htmlFor="confirm-password">Confirm Password</label>

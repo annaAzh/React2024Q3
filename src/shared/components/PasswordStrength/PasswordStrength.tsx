@@ -11,10 +11,8 @@ export const PasswordStrength: FC<PasswordStrengthProps> = ({ password }) => {
   const [strength, setStrength] = useState<number>(0);
 
   useEffect(() => {
-    if (password) {
-      const computedStrength = getPasswordStrength(password);
-      setStrength(computedStrength);
-    }
+    const computedStrength = getPasswordStrength(password);
+    setStrength(computedStrength);
   }, [password]);
 
   const strengthColor = PASSWORD_STRENGTH_COLORS[strength - 1];

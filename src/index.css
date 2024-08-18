@@ -1,0 +1,99 @@
+@import './app/styles/variables.css';
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--primary-color);
+  background-color: var(--text-color);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: inherit;
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  display: inline-block;
+  text-align: left;
+  width: fit-content;
+  border: 1px solid var(--links-color);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+a:hover {
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  color: #3e3e3d;
+}
+
+a + a {
+  margin-left: 20px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  width: 100%;
+}
+
+h1 {
+  font-size: 2em;
+  line-height: 1.1;
+  margin: 20px 0;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+p {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+ul,
+ol {
+  padding: 0;
+}
+
+h1,
+body,
+p,
+ul,
+ol,
+li {
+  margin: 0;
+}
+
+h1 {
+  margin-bottom: 20px;
+}

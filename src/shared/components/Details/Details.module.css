@@ -1,0 +1,31 @@
+.wrapper {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid var(--primary-color);
+  border-radius: 10px;
+}
+
+.wrapper.active {
+  box-shadow: 0 0 12px var(--links-color);
+}
+
+.item_wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+  row-gap: 10px;
+}
+
+.span {
+  font-weight: 700;
+  width: 100px;
+  text-align: left;
+}
+
+.image {
+  max-width: 200px;
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}

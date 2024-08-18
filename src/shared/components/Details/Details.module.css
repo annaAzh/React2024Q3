@@ -1,12 +1,12 @@
 .wrapper {
   max-width: 400px;
   padding: 20px;
-  border: 1px solid #ececec;
+  border: 1px solid var(--primary-color);
   border-radius: 10px;
 }
 
 .wrapper.active {
-  box-shadow: 0 0 12px rgb(212, 236, 80);
+  box-shadow: 0 0 12px var(--links-color);
 }
 
 .item_wrapper {

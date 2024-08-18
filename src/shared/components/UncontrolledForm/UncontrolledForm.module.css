@@ -5,7 +5,7 @@
   max-width: 600px;
   width: 100%;
   padding: 20px;
-  border: 1px solid #ececec;
+  border: 1px solid var(--primary-color);
   border-radius: 10px;
   text-align: left;
 }
@@ -18,14 +18,14 @@
   border: none;
   padding: 4px 10px;
   font-size: 18px;
-  background-color: #ececec;
+  background-color: var(--primary-color);
 }
 
 .submit {
   max-width: 200px;
   width: 100%;
-  border: 1px solid #ececec;
-  color: #ececec;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
   background-color: transparent;
   display: flex;
   align-items: center;
@@ -43,8 +43,8 @@
 }
 
 .submit:hover {
-  background-color: #ececec;
-  color: black;
+  background-color: var(--primary-color);
+  color: var(--text-color);
 }
 
 .submit:hover:disabled {
@@ -57,6 +57,6 @@
 }
 
 .errors {
-  color: #f44545;
+  color: var(--errors-color);
   line-height: 120%;
 }

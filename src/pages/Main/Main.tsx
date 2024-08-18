@@ -13,8 +13,8 @@ export const Main = () => {
 
   return (
     <>
-      <Link to={Path.controlFrom}>Controll form</Link>
-      <Link to={Path.unControlFrom}>Un Controll form</Link>
+      <Link to={Path.controlFrom}>Controlled form</Link>
+      <Link to={Path.unControlFrom}>UnControlled form</Link>
       <h1 className={styles.title}>Main page</h1>
 
       <div className={styles.forms_wrapper}>

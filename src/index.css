@@ -1,9 +1,11 @@
+@import './app/styles/variables.css';
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--primary-color);
+  background-color: var(--text-color);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -24,15 +26,15 @@ a {
   display: inline-block;
   text-align: left;
   width: fit-content;
-  border: 1px solid rgb(212, 236, 80);
+  border: 1px solid var(--links-color);
   padding: 6px 10px;
   border-radius: 8px;
 }
 
 a:hover {
-  background-color: #ececec;
-  border: 1px solid #ececec;
-  color: rgb(62, 62, 61);
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  color: #3e3e3d;
 }
 
 a + a {
@@ -85,18 +87,13 @@ ol {
 
 h1,
 body,
-h2,
-h4,
-h5,
-h6,
 p,
 ul,
 ol,
-li,
-figure,
-figcaption,
-blockquote,
-dl,
-dd {
+li {
   margin: 0;
+}
+
+h1 {
+  margin-bottom: 20px;
 }

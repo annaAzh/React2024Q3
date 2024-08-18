@@ -13,6 +13,12 @@
   gap: 40px;
 }
 
+@media (max-width: 800px) {
+  .forms_wrapper {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
 .forms {
   display: flex;
   flex-direction: column;

@@ -28,7 +28,6 @@ export const UncontrolledForm: FC = () => {
   const countryRef = useRef<HTMLInputElement>(null);
 
   const [errors, setErrors] = useState<Errors>({});
-  const [password, setPassord] = useState<string>('');
 
   const onSubmitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -82,17 +81,10 @@ export const UncontrolledForm: FC = () => {
       {errors.email && <p className={style.errors}>{errors.email}</p>}
 
       <label htmlFor="password">Password</label>
-      <input
-        ref={passwordRef}
-        className={style.input}
-        id="password"
-        type="password"
-        autoComplete="true"
-        onChange={() => setPassord(passwordRef.current?.value || '')}
-      />
+      <input ref={passwordRef} className={style.input} id="password" type="password" autoComplete="true" />
       {errors.password && <p className={style.errors}>{errors.password}</p>}
 
-      <PasswordStrength password={password} />
+      <PasswordStrength password={passwordRef.current?.value || ''} />
 
       <label htmlFor="confirm-password">Confirm Password</label>
       <input ref={confirmRef} className={style.input} id="confirm-password" type="password" autoComplete="true" />
@@ -101,7 +93,7 @@ export const UncontrolledForm: FC = () => {
       <label>Gender</label>
       <div style={{ display: 'flex', marginBottom: '20px' }}>
         <label htmlFor="gender">Male</label>
-        <input ref={genderRef} name="gender" id="male" type="radio" value="male" />
+        <input ref={genderRef} name="gender" id="male" type="radio" value="male" checked />
         <label htmlFor="femail">Female</label>
         <input ref={genderRef} name="gender" id="femail" type="radio" value="female" />
       </div>
